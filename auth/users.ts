@@ -1,9 +1,28 @@
-const users = [
-  { id: "1", email: "karolskolasinski@gmail.com", password: "123", name: "Test User" },
-];
+import { db } from "@/lib/firebase";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import bcrypt from "bcryptjs";
 
 export async function getUserByCredentials(email: string, password: string) {
-  const user = users.find((u) => u.email === email && u.password === password);
-  if (!user) return null;
-  return { id: user.id, name: user.name, email: user.email };
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("email", "==", email));
+  const querySnapshot = await getDocs(q);
+
+  if (querySnapshot.empty) {
+    return null;
+  }
+
+  const userDoc = querySnapshot.docs[0];
+  const userData = userDoc.data();
+
+  const isValid = await bcrypt.compare(password, userData.password);
+  if (!isValid) {
+    return null;
+  }
+
+  return {
+    id: userDoc.id,
+    name: userData.name,
+    email: userData.email,
+    role: userData.role,
+  };
 }
