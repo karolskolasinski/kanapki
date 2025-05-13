@@ -3,7 +3,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="bg-gray-50">
+      <section>
         <div>
           <div>
             {/*<strong>NIEŹLE ZMROŻONE 🥶</strong>: https://niezlezmrozone.pl*/}
