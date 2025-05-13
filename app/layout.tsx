@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const calSans = localFont({
   src: "../public/fonts/CalSans-Regular.woff2",
@@ -23,8 +24,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pl">
       <body className="antialiased">
         <Header font={calSans.className} />
-
         {children}
+        <Footer font={calSans.className} />
       </body>
     </html>
   );
