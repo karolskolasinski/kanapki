@@ -13,8 +13,8 @@ export default function Home() {
   // }, []);
 
   return (
-    <div className="flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-12 px-2">
-      <section className="snap-center">
+    <div className="flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 px-2">
+      <section className="snap-center md:w-[50%]">
         <div className="card bg-orange-400">
           <div className="card-title">
             <h3 className="uppercase font-work-sans text-2xl font-black text-center">
@@ -46,7 +46,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="snap-center">
+      <section className="snap-center md:w-[50%]">
         {/*<div>*/}
         {/*  <strong>NIEŹLE ZMROŻONE 🥶</strong>: https://niezlezmrozone.pl*/}
         {/*</div>*/}

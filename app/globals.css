@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+    --breakpoint-xs: 30rem;
+}
+
 .font-cal-sans {
     @apply font-[family-name:var(--font-cal-sans)]
 }
@@ -9,7 +13,7 @@
 }
 
 .card {
-    @apply w-90 px-6 pb-6 pt-20 flex flex-col justify-center items-center border-[5px] border-black rounded-[30px] relative z-0 h-fit shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
+    @apply w-[85vw] xs:w-[90vw] md:w-auto px-6 pb-6 pt-20 flex flex-col justify-center items-center border-[5px] border-black rounded-[30px] relative z-0 h-fit shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
 }
 
 .card-title {
