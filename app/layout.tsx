@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import localFont from "next/font/local";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import localFont from "next/font/local";
 
 const calSans = localFont({
   src: "../public/fonts/CalSans-Regular.woff2",
@@ -21,11 +21,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pl">
+    <html lang="pl" className={`${calSans.variable} ${nosy.variable}`}>
       <body className="antialiased bg-gray-50">
-        <Header font={calSans.className} />
+        <Header />
         {children}
-        <Footer font={calSans.className} />
+        <Footer />
       </body>
     </html>
   );

@@ -1,1 +1,9 @@
 @import "tailwindcss";
+
+.font-cal-sans {
+    @apply font-[family-name:var(--font-cal-sans)]
+}
+
+.font-nosy {
+    @apply font-[family-name:var(--font-nosy)]
+}

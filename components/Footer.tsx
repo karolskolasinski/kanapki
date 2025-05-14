@@ -1,12 +1,10 @@
-export default function Footer(props: { font: string }) {
-  const { font } = props;
-
+export default function Footer() {
   return (
     <footer className="bg-gray-100 w-full">
       <div className="max-w-7xl mx-auto px-4 md:px-16 py-10 md:pt-20 md:pb-0">
         <div className="flex flex-col lg:flex-row gap-16 pb-8">
           <div className="flex-1">
-            <h1 className={`${font} uppercase pt-8`}>Jeszcze ciepłe</h1>
+            <h1 className={`uppercase pt-8`}>Jeszcze ciepłe</h1>
           </div>
 
           <div id="contact" className="flex flex-col gap-4 flex-1">

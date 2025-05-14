@@ -1,6 +1,4 @@
-export default function Header(props: { font: string }) {
-  const { font } = props;
-
+export default function Header() {
   return (
     <header>
       <div className="flex justify-between items-center p-4 md:px-16 max-w-7xl mx-auto">
@@ -12,9 +10,7 @@ export default function Header(props: { font: string }) {
               className="w-12"
             />
 
-            <div
-              className={`${font} flex flex-col uppercase leading-none text-xl tracking-wider`}
-            >
+            <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
               <div>Jeszcze</div>
               <div className="flex items-center">
                 ciepłe<span className="text-[1rem]">🔥</span>
