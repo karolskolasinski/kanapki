@@ -3,15 +3,16 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import localFont from "next/font/local";
+import { Work_Sans } from "next/font/google";
 
 const calSans = localFont({
   src: "../public/fonts/CalSans-Regular.woff2",
   variable: "--font-cal-sans",
 });
 
-const nosy = localFont({
-  src: "../public/fonts/Nosy.otf",
-  variable: "--font-nosy",
+const workSans = Work_Sans({
+  subsets: ["latin"],
+  variable: "--font-work-sans",
 });
 
 export const metadata: Metadata = {
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pl" className={`${calSans.variable} ${nosy.variable}`}>
+    <html lang="pl" className={`${calSans.variable} ${workSans.variable}`}>
       <body className="antialiased bg-gray-50">
         <Header />
         {children}
