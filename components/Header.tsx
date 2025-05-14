@@ -1,7 +1,7 @@
 export default function Header() {
   return (
     <header>
-      <div className="flex justify-between items-center p-4 md:px-16 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center py-4 px-2 max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
           <a href="./" className="flex gap-2 items-center font-bold">
             <img
