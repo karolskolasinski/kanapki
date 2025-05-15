@@ -18,7 +18,7 @@ export default async function DashboardLayout() {
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <Link
-          href="/dashboard/vehicles"
+          href="/dashboard/users"
           className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-violet-200 duration-300 ease-in-out font-semibold flex-1"
         >
           <div className="bg-[#ebeafc] p-5 rounded-full">

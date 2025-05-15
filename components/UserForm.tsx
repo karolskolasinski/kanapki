@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 
-type Vehicle = {
+type User = {
+  id: string;
   name: string;
   email: string;
   model: string;
@@ -12,10 +13,12 @@ type Vehicle = {
   updatedAt: Date | null;
   location: string;
   password: string;
+  role: string;
 };
 
-export default function VehicleForm() {
-  const [formData, setFormData] = useState<Vehicle>({
+export default function UserForm() {
+  const [formData, setFormData] = useState<User>({
+    id: "",
     name: "",
     email: "",
     model: "",
@@ -24,6 +27,7 @@ export default function VehicleForm() {
     updatedAt: null,
     location: "",
     password: "",
+    role: "manager",
   });
 
   useEffect(() => {
@@ -41,10 +45,27 @@ export default function VehicleForm() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Dane pojazdu:", formData);
-    // tutaj możesz dodać zapis do Firestore
+
+    try {
+      const response = await fetch("/api/user", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Błąd zapisu");
+      }
+
+      alert("Zapisano pojazd!");
+    } catch (err) {
+      console.error(err);
+      alert("Nie udało się zapisać.");
+    }
   };
 
   return (
