@@ -16,7 +16,7 @@ export default async function DashboardLayout() {
         <small>Dashboard</small>
       </div>
 
-      <div className="flex flex-col gap-5 sm:flex-row">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <Link
           href="/dashboard/vehicles"
           className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-violet-200 duration-300 ease-in-out font-semibold flex-1"
@@ -68,6 +68,24 @@ export default async function DashboardLayout() {
           <div>
             <small className="text-gray-400">X szt.</small>
             <div>Menu</div>
+          </div>
+        </Link>
+
+        <Link
+          className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-orange-200 duration-300 ease-in-out font-semibold flex-1"
+          href="/dashboard/location"
+        >
+          <div className="bg-[#f8edeb] p-5 rounded-full">
+            <img
+              src="/location.svg"
+              alt="menu"
+              className="w-6"
+            />
+          </div>
+
+          <div>
+            <small className="text-gray-400">Last location</small>
+            <div>Lokalizacja</div>
           </div>
         </Link>
       </div>
