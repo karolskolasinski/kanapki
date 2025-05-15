@@ -89,7 +89,7 @@ export default function UserForm() {
       <div className="flex justify-end">
         <button
           type="submit"
-          className="text-white-800 mt-10 px-4 inline-flex gap-2 h-10 items-center justify-center rounded-md text-sm bg-purple-200 hover:bg-primary-400 focus:bg-purple-300 border hover:border-purple-500 border-purple-400 font-bold shadow-[0px_2px_4px_0px_rgba(10,13,18,0.1)] shadow-[0px_-3px_0px_0px_rgba(10,13,18,0.1)_inset] shadow-[0px_0px_0px_2px_rgba(10,13,18,0.25)_inset] duration-150 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-[1px] cursor-pointer"
+          className="button"
         >
           Zapisz pojazd
         </button>

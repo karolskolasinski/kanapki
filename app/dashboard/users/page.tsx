@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Loading from "@/app/loading";
 
 type User = {
   id: string;
@@ -40,22 +41,63 @@ function Users() {
         <small>Pojazdy</small>
       </div>
 
-      {loading && <p className="text-gray-400 text-sm mx-5">Ładowanie...</p>}
-      {error && <p className="text-red-500 text-sm mx-5">Błąd: {error}</p>}
+      {loading && <Loading />}
 
-      <ul className="mx-5 space-y-2">
+      {error && (
+        <h1 className="text-red-500 flex space-x-2 justify-center items-center h-24">
+          Błąd: {error}
+        </h1>
+      )}
+
+      <div className="grid lg:grid-cols-2 gap-5">
         {users.map((user) => (
-          <li key={user.id} className="border p-3 rounded bg-white shadow-sm">
-            <p className="font-semibold">{user.fullName || user.name}</p>
-            <p className="text-sm text-gray-500">{user.email}</p>
-            {user.model && <p className="text-sm">Model: {user.model}</p>}
-            {user.registration && <p className="text-sm">Rejestracja: {user.registration}</p>}
-            {user.location && <p className="text-sm">Lokalizacja: {user.location}</p>}
-          </li>
+          <div
+            key={user.id}
+            className="bg-white p-5 rounded-3xl flex flex-col gap-2 border border-transparent hover:border text-gray-700"
+          >
+            <h2 className="text-base font-bold text-gray-900">{user.name}</h2>
+
+            {location(user.location)}
+
+            <small>
+              <strong>Imię i nazwisko:</strong> {user.fullName}
+            </small>
+
+            <small>
+              <strong>Email:</strong> {user.email}
+            </small>
+
+            <small>
+              <strong>Model:</strong> {user.model}
+            </small>
+
+            <small>
+              <strong>Rejestracja:</strong> {user.registration}
+            </small>
+
+            <div className="flex gap-3 justify-end">
+              <button className="button !bg-transparent !border-gray-300">
+                Usuń
+              </button>
+
+              <button className="button">
+                Edytuj
+              </button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </section>
   );
+
+  function location(location: User["location"]) {
+    return (
+      <small>
+        <strong className="hidden xs:inline">Lokalizacja:</strong>{" "}
+        {location ? location : <span className="text-red-500">Brak ustawionej lokalizacji</span>}
+      </small>
+    );
+  }
 }
 
 export default Users;
