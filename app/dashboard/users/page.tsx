@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Loading from "@/app/loading";
+import { useRouter } from "next/navigation";
 
 type User = {
   id: string;
@@ -17,6 +18,7 @@ function Users() {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -36,7 +38,7 @@ function Users() {
   }, []);
 
   return (
-    <section className="flex-1 w-full overflow-auto max-w-7xl mx-auto py-4 px-2">
+    <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
       <div className="text-gray-500 uppercase font-semibold mx-5 my-3">
         <small>Pojazdy</small>
       </div>
@@ -80,7 +82,10 @@ function Users() {
                 Usuń
               </button>
 
-              <button className="button">
+              <button
+                className="button"
+                onClick={() => router.push(`/dashboard/users/${user.id}`)}
+              >
                 Edytuj
               </button>
             </div>

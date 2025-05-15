@@ -16,7 +16,7 @@ type User = {
   role: string;
 };
 
-export default function UserForm() {
+export default function UserForm(props: { user: User | unknown }) {
   const [formData, setFormData] = useState<User>({
     id: "",
     name: "",

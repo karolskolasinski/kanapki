@@ -43,10 +43,9 @@ export async function GET() {
   }
 
   try {
-    const usersRef = collection(db, "users");
-    const snapshot = await getDocs(usersRef);
-
-    const users = snapshot.docs.map((doc) => ({
+    const docRef = collection(db, "users");
+    const docSnap = await getDocs(docRef);
+    const users = docSnap.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
