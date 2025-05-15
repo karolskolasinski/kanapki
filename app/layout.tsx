@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="pl" className={`${calSans.variable} ${workSans.variable} ${openSans.className}`}>
-      <body className="antialiased bg-gray-100">
+      <body className="antialiased bg-gray-100 min-h-[100vh] flex flex-col">
         <Header />
         {children}
         <Footer />

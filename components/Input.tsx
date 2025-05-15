@@ -13,11 +13,13 @@ export default function Input(props: InputProps) {
     model: "Model",
     registration: "Rejestracja",
     location: "Lokalizacja",
-    password: "Hasło startowe",
+    password: "Hasło",
   };
 
+  const attrs = name === "location" ? { className: "lg:col-span-2" } : {};
+
   return (
-    <div>
+    <div {...attrs}>
       <label className="block text-sm text-gray-600 my-1">{labelMap[name]}</label>
       <input
         type={name === "email" ? "email" : "text"}

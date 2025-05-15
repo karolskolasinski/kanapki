@@ -18,7 +18,7 @@ export default function Home() {
         Address
       </section>
 
-      <section className="flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 px-2">
+      <section className="flex-1 w-full flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 px-2">
         <div className="snap-center md:w-[50%]">
           <div className="card bg-orange-400">
             <div className="card-title">

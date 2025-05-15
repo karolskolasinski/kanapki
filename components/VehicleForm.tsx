@@ -48,25 +48,21 @@ export default function VehicleForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-4 rounded-3xl"
-    >
+    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-3xl">
       <h1 className="text-xl font-bold text-gray-700 mt-3">Nowy pojazd</h1>
       <small className="h-[1rem] block mb-3 text-gray-500">
         {formData.updatedAt ? formData.updatedAt.toLocaleString() : ""}
       </small>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
         <Input name="name" value={formData.name} handleChange={handleChange} />
         <Input name="email" value={formData.email} handleChange={handleChange} />
         <Input name="fullName" value={formData.fullName} handleChange={handleChange} />
+        <Input name="password" value={formData.password} handleChange={handleChange} />
 
         <Input name="model" value={formData.model} handleChange={handleChange} />
         <Input name="registration" value={formData.registration} handleChange={handleChange} />
         <Input name="location" value={formData.location} handleChange={handleChange} />
-
-        <Input name="password" value={formData.password} handleChange={handleChange} />
       </div>
 
       <div className="flex justify-end">
@@ -80,4 +76,3 @@ export default function VehicleForm() {
     </form>
   );
 }
-
