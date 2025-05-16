@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import bcrypt from "bcryptjs";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
@@ -32,27 +32,5 @@ export async function POST(req: NextRequest) {
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Failed to save user" }, { status: 500 });
-  }
-}
-
-export async function GET() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  try {
-    const docRef = collection(db, "users");
-    const docSnap = await getDocs(docRef);
-    const users = docSnap.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-
-    return NextResponse.json(users);
-  } catch (e) {
-    console.error(e);
-    return NextResponse.json({ error: "Failed to fetch users" }, { status: 500 });
   }
 }

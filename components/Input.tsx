@@ -22,7 +22,7 @@ export default function Input(props: InputProps) {
     <div {...attrs}>
       <label className="block text-sm text-gray-600 my-1">{labelMap[name]}</label>
       <input
-        type={name === "email" ? "email" : "text"}
+        type={inputType()}
         name={name}
         value={value ?? ""}
         onChange={handleChange}
@@ -31,4 +31,11 @@ export default function Input(props: InputProps) {
       />
     </div>
   );
+
+  function inputType() {
+    if (name === "email") return "email";
+    if (name === "password" && value && value.length > 10) return "password";
+
+    return "text";
+  }
 }
