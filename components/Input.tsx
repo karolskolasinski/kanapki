@@ -16,10 +16,8 @@ export default function Input(props: InputProps) {
     password: "Hasło",
   };
 
-  const attrs = name === "location" ? { className: "lg:col-span-2" } : {};
-
   return (
-    <div {...attrs}>
+    <div>
       <label className="block text-sm text-gray-600 my-1">{labelMap[name]}</label>
       <input
         type={inputType()}

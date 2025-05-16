@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Loader() {
   return (
-    <div className="flex space-x-2 justify-center items-center h-24">
+    <div className="flex-1 flex justify-center h-24">
       <svg
         aria-hidden="true"
         className="inline w-8 h-8 text-gray-300 animate-spin fill-purple-500"

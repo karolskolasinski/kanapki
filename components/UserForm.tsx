@@ -52,6 +52,9 @@ export default function UserForm(props: { user?: User }) {
       if (!response.ok) {
         setError("Błąd zapisu");
       }
+
+      alert("Zapisano");
+      setError(null);
     } catch (err) {
       console.error(err);
       setError("Błąd zapisu");
@@ -60,21 +63,19 @@ export default function UserForm(props: { user?: User }) {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-4 lg:p-8 rounded-3xl">
-      <h1 className="text-xl font-bold mt-3">{formData?.name}</h1>
+      <h1 className="h-[1.25rem] text-xl font-bold my-3">{formData?.name}</h1>
       <small className="h-[1rem] block mb-3 text-gray-500">
         {formData?.updatedAt ? formData.updatedAt.toLocaleString() : ""}
       </small>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         <input type="hidden" name="id" value={formData?.id ?? ""} />
         <Input name="name" value={formData?.name} handleChange={handleChange} />
         <Input name="email" value={formData?.email} handleChange={handleChange} />
         <Input name="fullName" value={formData?.fullName} handleChange={handleChange} />
-        <Input name="password" value={formData?.password} handleChange={handleChange} />
-
+        <Input name="location" value={formData?.location} handleChange={handleChange} />
         <Input name="model" value={formData?.model} handleChange={handleChange} />
         <Input name="registration" value={formData?.registration} handleChange={handleChange} />
-        <Input name="location" value={formData?.location} handleChange={handleChange} />
       </div>
 
       <div className="flex gap-3 justify-end items-center mt-10">

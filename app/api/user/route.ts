@@ -13,33 +13,27 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { id, name, email, model, registration, fullName, location, password } = body;
+  const id = body?.id;
+  const data = {
+    name: body.name,
+    email: body.email,
+    fullName: body.fullName,
+    model: body.model,
+    registration: body.registration,
+    location: body?.location ?? "",
+  };
 
   try {
     if (id) {
-      const updatedData = {
-        name,
-        email,
-        model,
-        registration,
-        fullName,
-        location,
-        updatedAt: serverTimestamp(),
-      };
-
       const userRef = doc(db, "users", id);
-      await updateDoc(userRef, updatedData);
+      await updateDoc(userRef, {
+        ...data,
+        updatedAt: serverTimestamp(),
+      });
     } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-
       await addDoc(collection(db, "users"), {
-        name,
-        email,
-        model,
-        registration,
-        fullName,
-        location,
-        password: hashedPassword,
+        ...data,
+        password: await bcrypt.hash(body.password, 12),
         updatedAt: serverTimestamp(),
       });
     }
