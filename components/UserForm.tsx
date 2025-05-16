@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 
-type User = {
+export type User = {
   id: string;
   name: string;
   email: string;
@@ -31,12 +31,16 @@ export default function UserForm(props: { user: User | unknown }) {
   });
 
   useEffect(() => {
-    setFormData((prev) => ({
-      ...prev,
-      updatedAt: new Date(),
-      password: crypto.randomUUID().replaceAll("-", "").toUpperCase().substring(0, 10),
-    }));
-  }, []);
+    if (props.user) {
+      setFormData(props.user as User);
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        updatedAt: new Date(),
+        password: crypto.randomUUID().replaceAll("-", "").toUpperCase().substring(0, 10),
+      }));
+    }
+  }, [props.user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
