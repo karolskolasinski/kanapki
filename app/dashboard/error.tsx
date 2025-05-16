@@ -13,7 +13,9 @@ export default function Error({ error, reset }: {
 
   return (
     <div>
-      <h2>Something went wrong!</h2>
+      <h1 className="text-red-500 flex space-x-2 justify-center items-center h-24">
+        Błąd: {error.message}
+      </h1>
       <button
         onClick={
           // Attempt to recover by trying to re-render the segment

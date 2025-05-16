@@ -1,7 +1,9 @@
+import { collection, getCountFromServer } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import Link from "next/link";
+import DashboardItem from "@/components/DashboardItem";
 
 export default async function DashboardLayout() {
   const session = await getServerSession(authOptions);
@@ -10,6 +12,12 @@ export default async function DashboardLayout() {
     redirect("/login");
   }
 
+  const usersSnap = await getCountFromServer(collection(db, "users"));
+  const ingredientsSnap = await getCountFromServer(collection(db, "ingredients"));
+
+  const usersCount = usersSnap.data().count;
+  const ingredientsCount = ingredientsSnap.data().count;
+
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
       <div className="text-gray-500 uppercase font-semibold mx-5 my-3">
@@ -17,77 +25,10 @@ export default async function DashboardLayout() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <Link
-          href="/dashboard/users"
-          className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-violet-200 duration-300 ease-in-out font-semibold flex-1"
-        >
-          <div className="bg-[#ebeafc] p-5 rounded-full">
-            <img
-              src="/speed_truck.svg"
-              alt="pojazdy"
-              className="w-6"
-            />
-          </div>
-
-          <div>
-            <small className="text-gray-400">1 szt.</small>
-            <div>Pojazdy</div>
-          </div>
-        </Link>
-
-        <Link
-          className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-pink-200 duration-300 ease-in-out font-semibold flex-1"
-          href="/dashboard/ingredients"
-        >
-          <div className="bg-[#f9ebfd] p-5 rounded-full">
-            <img
-              src="/ingredients.svg"
-              alt="składinki"
-              className="w-6"
-            />
-          </div>
-
-          <div>
-            <small className="text-gray-400">X szt.</small>
-            <div>Składniki</div>
-          </div>
-        </Link>
-
-        <Link
-          className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-sky-200 duration-300 ease-in-out font-semibold flex-1"
-          href="/dashboard/menu"
-        >
-          <div className="bg-[#e9f6fa] p-5 rounded-full">
-            <img
-              src="/dish.svg"
-              alt="menu"
-              className="w-6"
-            />
-          </div>
-
-          <div>
-            <small className="text-gray-400">X szt.</small>
-            <div>Menu</div>
-          </div>
-        </Link>
-
-        <Link
-          className="bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border hover:border-orange-200 duration-300 ease-in-out font-semibold flex-1"
-          href="/dashboard/location"
-        >
-          <div className="bg-[#f8edeb] p-5 rounded-full">
-            <img
-              src="/location.svg"
-              alt="menu"
-              className="w-6"
-            />
-          </div>
-
-          <div>
-            <small className="text-gray-400">Last location</small>
-            <div>Lokalizacja</div>
-          </div>
-        </Link>
+        <DashboardItem item="users" count={usersCount} />
+        <DashboardItem item="ingredients" count={ingredientsCount} />
+        <DashboardItem item="menu" count={0} />
+        <DashboardItem item="location" count={0} />
       </div>
     </section>
   );
