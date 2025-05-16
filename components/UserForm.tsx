@@ -4,31 +4,20 @@ import { useEffect, useState } from "react";
 import Input from "@/components/Input";
 
 export type User = {
-  id: string;
-  name: string;
-  email: string;
-  model: string;
-  registration: string;
-  fullName: string;
-  updatedAt: Date | null;
-  location: string;
-  password: string;
-  role: string;
+  id?: string;
+  name?: string;
+  email?: string;
+  fullName?: string;
+  model?: string;
+  registration?: string;
+  location?: string;
+  password?: string;
+  role?: string;
+  updatedAt?: Date | null;
 };
 
-export default function UserForm(props: { user: User | unknown }) {
-  const [formData, setFormData] = useState<User>({
-    id: "",
-    name: "",
-    email: "",
-    model: "",
-    registration: "",
-    fullName: "",
-    updatedAt: null,
-    location: "",
-    password: "",
-    role: "manager",
-  });
+export default function UserForm(props: { user?: User }) {
+  const [formData, setFormData] = useState<User | null>(null);
 
   useEffect(() => {
     if (props.user) {
@@ -76,18 +65,19 @@ export default function UserForm(props: { user: User | unknown }) {
     <form onSubmit={handleSubmit} className="bg-white p-4 rounded-3xl">
       <h1 className="text-xl font-bold text-gray-700 mt-3">Nowy pojazd</h1>
       <small className="h-[1rem] block mb-3 text-gray-500">
-        {formData.updatedAt ? formData.updatedAt.toLocaleString() : ""}
+        {formData?.updatedAt ? formData.updatedAt.toLocaleString() : ""}
       </small>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-        <Input name="name" value={formData.name} handleChange={handleChange} />
-        <Input name="email" value={formData.email} handleChange={handleChange} />
-        <Input name="fullName" value={formData.fullName} handleChange={handleChange} />
-        <Input name="password" value={formData.password} handleChange={handleChange} />
+        <input type="hidden" name="id" value={formData?.id ?? ""} />
+        <Input name="name" value={formData?.name} handleChange={handleChange} />
+        <Input name="email" value={formData?.email} handleChange={handleChange} />
+        <Input name="fullName" value={formData?.fullName} handleChange={handleChange} />
+        <Input name="password" value={formData?.password} handleChange={handleChange} />
 
-        <Input name="model" value={formData.model} handleChange={handleChange} />
-        <Input name="registration" value={formData.registration} handleChange={handleChange} />
-        <Input name="location" value={formData.location} handleChange={handleChange} />
+        <Input name="model" value={formData?.model} handleChange={handleChange} />
+        <Input name="registration" value={formData?.registration} handleChange={handleChange} />
+        <Input name="location" value={formData?.location} handleChange={handleChange} />
       </div>
 
       <div className="flex justify-end">

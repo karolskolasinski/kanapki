@@ -1,6 +1,6 @@
 type InputProps = {
   name: string;
-  value: string;
+  value?: string;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -24,7 +24,7 @@ export default function Input(props: InputProps) {
       <input
         type={name === "email" ? "email" : "text"}
         name={name}
-        value={value}
+        value={value ?? ""}
         onChange={handleChange}
         className="w-full p-2 border border-gray-300 rounded-xl"
         required={name !== "location"}
