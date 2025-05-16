@@ -67,6 +67,10 @@ async function Users() {
           </div>
         ))}
       </div>
+
+      <form action={`/dashboard/users/new`} method="GET" className="flex justify-end mt-10">
+        <button className="button">Dodaj nowy</button>
+      </form>
     </section>
   );
 }
