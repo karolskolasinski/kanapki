@@ -1,41 +1,18 @@
-"use client";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { User } from "@/components/UserForm";
 
-import { useEffect, useState } from "react";
-import Loader from "@/app/loading";
-import { useRouter } from "next/navigation";
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  model?: string;
-  registration?: string;
-  fullName?: string;
-  location?: string;
-};
-
-function Users() {
-  const [users, setUsers] = useState<User[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  useEffect(() => {
-    const loadUsers = async () => {
-      try {
-        const response = await fetch("/api/user");
-        const data = await response.json();
-        setUsers(data);
-      } catch (err) {
-        console.error("fetching data error: ", err);
-        setError("Błąd pobierania danych");
-      }
-
-      setLoading(false);
+async function Users() {
+  const docRef = collection(db, "users");
+  const docSnap = await getDocs(docRef);
+  const users: User[] = docSnap.docs.map((doc) => {
+    const data = doc.data();
+    return {
+      id: doc.id,
+      ...data,
+      updatedAt: data.updatedAt ? data.updatedAt.toDate() : null,
     };
-
-    loadUsers();
-  }, []);
+  });
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -43,30 +20,33 @@ function Users() {
         <small>Pojazdy</small>
       </div>
 
-      {loading && <Loader />}
-
-      {error && (
-        <h1 className="text-red-500 flex space-x-2 justify-center items-center h-24">
-          Błąd: {error}
-        </h1>
-      )}
-
       <div className="grid lg:grid-cols-2 gap-5">
         {users.map((user) => (
           <div
             key={user.id}
-            className="bg-white p-5 rounded-3xl flex flex-col gap-2 border border-transparent hover:border text-gray-700"
+            className="bg-white p-5 rounded-3xl flex flex-col gap-2 border border-transparent hover:border"
           >
-            <h2 className="text-base font-bold text-gray-900">{user.name}</h2>
+            <div className="flex gap-3 items-center">
+              <h2 className="text-base font-bold text-black">{user.name}</h2>
+              <span className="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm">
+                {user.role}
+              </span>
+            </div>
 
-            {location(user.location)}
+            {user.location
+              ? user.location
+              : <span className="text-red-500">Brak ustawionej lokalizacji</span>}
 
             <small>
-              <strong>Imię i nazwisko:</strong> {user.fullName}
+              <strong>Aktualizacja:</strong> {user.updatedAt?.toLocaleString()}
             </small>
 
             <small>
               <strong>Email:</strong> {user.email}
+            </small>
+
+            <small>
+              <strong>Imię i nazwisko:</strong> {user.fullName}
             </small>
 
             <small>
@@ -78,31 +58,17 @@ function Users() {
             </small>
 
             <div className="flex gap-3 justify-end">
-              <button className="button !bg-transparent !border-gray-300">
-                Usuń
-              </button>
+              <button className="button !bg-transparent !border-gray-300">Usuń</button>
 
-              <button
-                className="button"
-                onClick={() => router.push(`/dashboard/users/${user.id}`)}
-              >
-                Edytuj
-              </button>
+              <form action={`/dashboard/users/${user.id}`} method="GET">
+                <button className="button">Edytuj</button>
+              </form>
             </div>
           </div>
         ))}
       </div>
     </section>
   );
-
-  function location(location: User["location"]) {
-    return (
-      <small>
-        <strong className="hidden xs:inline">Lokalizacja:</strong>{" "}
-        {location ? location : <span className="text-red-500">Brak ustawionej lokalizacji</span>}
-      </small>
-    );
-  }
 }
 
 export default Users;
