@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
 import bcrypt from "bcryptjs";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
@@ -13,20 +13,36 @@ export async function POST(req: NextRequest) {
   }
 
   const body = await req.json();
-  const { name, email, model, registration, fullName, location, password } = body;
+  const { id, name, email, model, registration, fullName, location, password } = body;
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
-    await addDoc(collection(db, "users"), {
-      name,
-      email,
-      model,
-      registration,
-      fullName,
-      updatedAt: serverTimestamp(),
-      location,
-      password: hashedPassword,
-    });
+    if (id) {
+      const updatedData = {
+        name,
+        email,
+        model,
+        registration,
+        fullName,
+        location,
+        updatedAt: serverTimestamp(),
+      };
+
+      const userRef = doc(db, "users", id);
+      await updateDoc(userRef, updatedData);
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      await addDoc(collection(db, "users"), {
+        name,
+        email,
+        model,
+        registration,
+        fullName,
+        location,
+        password: hashedPassword,
+        updatedAt: serverTimestamp(),
+      });
+    }
 
     return NextResponse.json({ success: true });
   } catch (e) {

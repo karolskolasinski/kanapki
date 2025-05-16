@@ -57,7 +57,7 @@ async function Users() {
               <strong>Rejestracja:</strong> {user.registration}
             </small>
 
-            <div className="flex gap-3 justify-end">
+            <div className="flex gap-3 justify-end mt-10">
               <button className="button !bg-transparent !border-gray-300">Usuń</button>
 
               <form action={`/dashboard/users/${user.id}`} method="GET">

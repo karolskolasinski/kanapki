@@ -77,12 +77,12 @@ export default function UserForm(props: { user?: User }) {
         <Input name="location" value={formData?.location} handleChange={handleChange} />
       </div>
 
-      <div className="flex justify-end">
-        {error ? error : (
-          <button type="submit" className="button">
-            Zapisz pojazd
-          </button>
-        )}
+      <div className="flex gap-3 justify-end items-center mt-10">
+        {error && <div className="text-red-500">{error}</div>}
+
+        <button type="submit" className="button">
+          Zapisz pojazd
+        </button>
       </div>
     </form>
   );
