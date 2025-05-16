@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Loading from "@/app/loading";
+import Loader from "@/app/loading";
 import { useRouter } from "next/navigation";
 
 type User = {
@@ -43,7 +43,7 @@ function Users() {
         <small>Pojazdy</small>
       </div>
 
-      {loading && <Loading />}
+      {loading && <Loader />}
 
       {error && (
         <h1 className="text-red-500 flex space-x-2 justify-center items-center h-24">

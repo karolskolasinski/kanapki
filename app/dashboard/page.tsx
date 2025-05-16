@@ -14,9 +14,11 @@ export default async function DashboardLayout() {
 
   const usersSnap = await getCountFromServer(collection(db, "users"));
   const ingredientsSnap = await getCountFromServer(collection(db, "ingredients"));
+  const menuSnap = await getCountFromServer(collection(db, "menu"));
 
   const usersCount = usersSnap.data().count;
   const ingredientsCount = ingredientsSnap.data().count;
+  const menuCount = menuSnap.data().count;
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -27,7 +29,7 @@ export default async function DashboardLayout() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <DashboardItem item="users" count={usersCount} />
         <DashboardItem item="ingredients" count={ingredientsCount} />
-        <DashboardItem item="menu" count={0} />
+        <DashboardItem item="menu" count={menuCount} />
         <DashboardItem item="location" count={0} />
       </div>
     </section>
