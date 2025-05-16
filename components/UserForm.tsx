@@ -18,6 +18,7 @@ export type User = {
 
 export default function UserForm(props: { user?: User }) {
   const [formData, setFormData] = useState<User | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (props.user) {
@@ -44,31 +45,27 @@ export default function UserForm(props: { user?: User }) {
     try {
       const response = await fetch("/api/user", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error("Błąd zapisu");
+        setError("Błąd zapisu");
       }
-
-      alert("Zapisano pojazd!");
     } catch (err) {
       console.error(err);
-      alert("Nie udało się zapisać.");
+      setError("Błąd zapisu");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-3xl">
-      <h1 className="text-xl font-bold text-gray-700 mt-3">Nowy pojazd</h1>
+    <form onSubmit={handleSubmit} className="bg-white p-4 lg:p-8 rounded-3xl">
+      <h1 className="text-xl font-bold mt-3">{formData?.name}</h1>
       <small className="h-[1rem] block mb-3 text-gray-500">
         {formData?.updatedAt ? formData.updatedAt.toLocaleString() : ""}
       </small>
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         <input type="hidden" name="id" value={formData?.id ?? ""} />
         <Input name="name" value={formData?.name} handleChange={handleChange} />
         <Input name="email" value={formData?.email} handleChange={handleChange} />
@@ -81,12 +78,11 @@ export default function UserForm(props: { user?: User }) {
       </div>
 
       <div className="flex justify-end">
-        <button
-          type="submit"
-          className="button"
-        >
-          Zapisz pojazd
-        </button>
+        {error ? error : (
+          <button type="submit" className="button">
+            Zapisz pojazd
+          </button>
+        )}
       </div>
     </form>
   );

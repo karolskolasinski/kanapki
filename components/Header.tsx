@@ -3,7 +3,7 @@ export default function Header() {
     <header>
       <div className="flex justify-between items-center py-4 px-2 max-w-7xl mx-auto">
         <div className="flex items-center gap-2">
-          <a href="./" className="flex gap-2 items-center font-bold">
+          <a href="./" className="flex gap-2 items-center font-bold py-1">
             <img
               src="/logo.svg"
               alt="Opis obrazka"
