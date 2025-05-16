@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 type DashboardItemProps = {
-  item: "users" | "ingredients" | "menu" | "location";
+  item: "users" | "ingredients" | "menu" | "location" | "password";
   count: number;
 };
 
@@ -31,6 +31,12 @@ export default function DashboardItem(props: DashboardItemProps) {
       icon: "location.svg",
       bg: "bg-[#f8edeb]",
       bgHover: "hover:border-orange-200",
+    },
+    password: {
+      label: "Hasło",
+      icon: "password.svg",
+      bg: "bg-[#D6F5E3]",
+      bgHover: "hover:border-green-200",
     },
   };
 

@@ -31,6 +31,7 @@ export default async function DashboardLayout() {
         <DashboardItem item="ingredients" count={ingredientsCount} />
         <DashboardItem item="menu" count={menuCount} />
         <DashboardItem item="location" count={0} />
+        <DashboardItem item="password" count={0} />
       </div>
     </section>
   );
