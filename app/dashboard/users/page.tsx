@@ -58,7 +58,14 @@ async function Users() {
             </small>
 
             <div className="flex gap-3 justify-end mt-10">
-              <button className="button !bg-transparent !border-gray-300">Usuń</button>
+              {user.role !== "admin" && (
+                <form action={`/api/user/${user.id}`} method="POST">
+                  <input type="hidden" name="_method" value="DELETE" />
+                  <button className="button !bg-transparent !border-gray-300">
+                    Usuń
+                  </button>
+                </form>
+              )}
 
               <form action={`/dashboard/users/${user.id}`} method="GET">
                 <button className="button">Edytuj</button>
