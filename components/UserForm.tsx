@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
 
 export type User = {
@@ -19,6 +20,7 @@ export type User = {
 export default function UserForm(props: { user?: User }) {
   const [formData, setFormData] = useState<User | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (props.user) {
@@ -49,12 +51,14 @@ export default function UserForm(props: { user?: User }) {
         body: JSON.stringify(formData),
       });
 
+      const result = await response.json();
       if (!response.ok) {
-        setError("Błąd zapisu");
+        setError(result.error || "Błąd zapisu");
+        return;
       }
 
-      alert("Zapisano");
       setError(null);
+      router.push("/dashboard/users");
     } catch (err) {
       console.error(err);
       setError("Błąd zapisu");
@@ -76,6 +80,7 @@ export default function UserForm(props: { user?: User }) {
         <Input name="location" value={formData?.location} handleChange={handleChange} />
         <Input name="model" value={formData?.model} handleChange={handleChange} />
         <Input name="registration" value={formData?.registration} handleChange={handleChange} />
+        <Input name="role" value={formData?.role} handleChange={handleChange} />
       </div>
 
       <div className="flex gap-3 justify-end items-center mt-10">

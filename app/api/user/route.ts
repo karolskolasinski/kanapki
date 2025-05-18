@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  serverTimestamp,
+  updateDoc,
+  where,
+} from "firebase/firestore";
 import bcrypt from "bcryptjs";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
@@ -21,6 +30,7 @@ export async function POST(req: NextRequest) {
     model: body.model,
     registration: body.registration,
     location: body?.location ?? "",
+    role: body?.role,
   };
 
   try {
@@ -31,7 +41,16 @@ export async function POST(req: NextRequest) {
         updatedAt: serverTimestamp(),
       });
     } else {
-      await addDoc(collection(db, "users"), {
+      const usersRef = collection(db, "users");
+      const q = query(usersRef, where("email", "==", body.email));
+      const existingUsers = await getDocs(q);
+
+      if (!existingUsers.empty) {
+        return NextResponse
+          .json({ error: "Użytkownik z tym adresem email już istnieje" }, { status: 400 });
+      }
+
+      await addDoc(usersRef, {
         ...data,
         password: await bcrypt.hash(body.password, 12),
         updatedAt: serverTimestamp(),
