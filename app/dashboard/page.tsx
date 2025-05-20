@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import DashboardItem from "@/components/DashboardItem";
 
-export default async function DashboardLayout() {
+export default async function Dashboard() {
   const session = await getServerSession(authOptions);
 
   if (!session) {
