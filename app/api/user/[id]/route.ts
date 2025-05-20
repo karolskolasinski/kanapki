@@ -1,13 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth/auth-config";
-import { NextResponse, NextRequest } from "next/server";
-import { doc, deleteDoc } from "firebase/firestore";
+import { NextRequest, NextResponse } from "next/server";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-export async function POST(
-  req: NextRequest,
-  { params }: { params: { id: string } },
-) {
+export async function POST(req: NextRequest, context: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -18,7 +15,7 @@ export async function POST(
   const method = body.get("_method");
 
   if (method === "DELETE") {
-    const userRef = doc(db, "users", params.id);
+    const userRef = doc(db, "users", context.params.id);
     try {
       await deleteDoc(userRef);
       return NextResponse.redirect(new URL("/dashboard/users", req.url));
