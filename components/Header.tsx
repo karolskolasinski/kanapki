@@ -12,6 +12,7 @@ export default function Header() {
               width={0}
               height={0}
               className="w-12"
+              priority
             />
 
             <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">

@@ -11,10 +11,10 @@ export default function Error({ error }: ErrorProps) {
   useEffect(() => console.error(error), [error]);
 
   return (
-    <div className="flex-1 h-full flex items-center justify-center">
+    <section className="flex items-center flex-1 h-full w-full max-w-7xl mx-auto py-4 px-2">
       <div className="text-red-500">
         <strong>Błąd:</strong> <span>{error.message}</span>
       </div>
-    </div>
+    </section>
   );
 }

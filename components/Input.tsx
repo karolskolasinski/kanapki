@@ -29,14 +29,14 @@ export default function Input(props: InputProps) {
                 id={role}
                 name="role"
                 value={role}
-                className="sr-only peer h-[42px] w-fit"
+                className="sr-only peer h-10 w-fit"
                 required
                 checked={value === role}
                 onChange={handleChange}
               />
               <label
                 htmlFor={role.toLowerCase()}
-                className="block p-2 bg-white border border-gray-300 rounded-xl cursor-pointer peer-checked:border-purple-600 peer-checked:text-purple-600 hover:text-purple-800 hover:bg-gray-50"
+                className="flex items-center p-2 h-10 bg-white border border-gray-300 rounded-xl cursor-pointer peer-checked:border-purple-600 peer-checked:text-purple-600 hover:text-purple-800 hover:bg-gray-50"
               >
                 {role.charAt(0).toUpperCase() + role.slice(1)}
               </label>
@@ -55,7 +55,7 @@ export default function Input(props: InputProps) {
         name={name}
         value={value ?? ""}
         onChange={handleChange}
-        className="w-full p-2 border border-gray-300 rounded-xl"
+        className="w-full h-10 p-2 border border-gray-300 rounded-xl"
         required={name !== "location"}
       />
     </div>

@@ -31,7 +31,7 @@ export default function LoginPage() {
         onChange={(e) => setEmail(e.target.value)}
         placeholder="Email"
         required
-        className="border border-gray-300 rounded-md p-2"
+        className="h-10 border border-gray-300 rounded-md p-2"
       />
       <input
         type="password"
@@ -39,7 +39,7 @@ export default function LoginPage() {
         onChange={(e) => setPassword(e.target.value)}
         placeholder="Hasło"
         required
-        className="border border-gray-300 rounded-md p-2"
+        className="h-10 border border-gray-300 rounded-md p-2"
       />
       <button type="submit" className="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600">
         Zaloguj się
