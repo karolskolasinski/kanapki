@@ -4,6 +4,7 @@ import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import DashboardItem from "@/components/DashboardItem";
+import LogoutButton from "@/components/LogoutButton";
 
 export default async function Dashboard() {
   const session = await getServerSession(authOptions);
@@ -32,6 +33,7 @@ export default async function Dashboard() {
         <DashboardItem item="menu" count={menuCount} />
         <DashboardItem item="location" count={0} />
         <DashboardItem item="password" count={0} />
+        <LogoutButton />
       </div>
     </section>
   );
