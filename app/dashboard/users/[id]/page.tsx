@@ -2,7 +2,7 @@ import UserForm from "@/components/UserForm";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-async function Page({ params }: { params: { id: string } }) {
+async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   let user;
 
