@@ -9,8 +9,9 @@ export default function Header() {
             <Image
               src="/logo.svg"
               alt="logo"
-              width={48}
-              height={48}
+              width={0}
+              height={0}
+              className="w-12"
             />
 
             <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
