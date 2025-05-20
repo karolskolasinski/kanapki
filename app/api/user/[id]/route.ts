@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -12,10 +12,10 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   const body = await req.formData();
-  const method = body.get("_method");
+  const method = body.get("method");
 
   if (method === "DELETE") {
-    const { id } = await params;
+    const id = body.get("id") as string;
     const userRef = doc(db, "users", id);
     try {
       await deleteDoc(userRef);
