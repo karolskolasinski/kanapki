@@ -3,19 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Input from "@/components/Input";
-
-export type User = {
-  id?: string;
-  name?: string;
-  email?: string;
-  fullName?: string;
-  model?: string;
-  registration?: string;
-  location?: string;
-  password?: string;
-  role?: string;
-  updatedAt?: Date | null;
-};
+import { User } from "@/app/dashboard/users/page";
 
 export default function UserForm(props: { user?: User }) {
   const [formData, setFormData] = useState<User | null>(null);

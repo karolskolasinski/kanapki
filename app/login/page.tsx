@@ -25,6 +25,7 @@ export default function LoginPage() {
       onSubmit={handleSubmit}
       className="flex flex-col w-96 mx-auto mt-44 gap-4"
     >
+      {/*todo: <Input />*/}
       <input
         type="email"
         value={email}

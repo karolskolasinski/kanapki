@@ -1,6 +1,18 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { User } from "@/components/UserForm";
+
+export type User = {
+  id?: string;
+  name?: string;
+  email?: string;
+  fullName?: string;
+  model?: string;
+  registration?: string;
+  location?: string;
+  password?: string;
+  role?: string;
+  updatedAt?: Date | null;
+};
 
 async function Users() {
   const docRef = collection(db, "users");

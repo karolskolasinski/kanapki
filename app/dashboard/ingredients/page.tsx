@@ -15,7 +15,7 @@ async function Ingredients() {
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
       <div className="text-gray-500 uppercase font-semibold mx-5 my-3">
-        <small>Ingredients</small>
+        <small>Składniki</small>
       </div>
 
       <div className="bg-white rounded-3xl p-4 lg:p-8">

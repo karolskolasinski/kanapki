@@ -1,11 +1,12 @@
 type InputProps = {
   name: string;
-  value?: string;
+  type?: string;
+  value?: string | number;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 export default function Input(props: InputProps) {
-  const { name, value, handleChange } = props;
+  const { name, type = "text", value, handleChange } = props;
   const labelMap: { [key: string]: string } = {
     name: "Nazwa",
     email: "Email",
@@ -13,8 +14,19 @@ export default function Input(props: InputProps) {
     model: "Model",
     registration: "Rejestracja",
     location: "Lokalizacja",
-    password: "Hasło",
     role: "Rola",
+    category: "Kategoria",
+    price: "Cena",
+    weight: "Waga",
+    cal: "Kalorie",
+    protein: "Białko",
+    fat: "Tłuszcz",
+    carbs: "Węglowodany",
+    vegetarian: "Wegetariańskie",
+    vegan: "Wegańskie",
+    glutenFree: "Bez glutenu",
+    lactoseFree: "Bez laktozy",
+    sugarFree: "Bez cukru",
   };
 
   if (name === "role") {
@@ -51,7 +63,7 @@ export default function Input(props: InputProps) {
     <div>
       <label className="block text-sm text-gray-600 my-1">{labelMap[name]}</label>
       <input
-        type={inputType()}
+        type={type}
         name={name}
         value={value ?? ""}
         onChange={handleChange}
@@ -60,11 +72,4 @@ export default function Input(props: InputProps) {
       />
     </div>
   );
-
-  function inputType() {
-    if (name === "email") return "email";
-    if (name === "password" && value && value.length > 10) return "password";
-
-    return "text";
-  }
 }
