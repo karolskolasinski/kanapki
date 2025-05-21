@@ -1,7 +1,7 @@
 type InputProps = {
   name: string;
   type?: string;
-  value?: string | number;
+  value?: string | number | boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -22,7 +22,7 @@ export default function Input(props: InputProps) {
     protein: "Białko",
     fat: "Tłuszcz",
     carbs: "Węglowodany",
-    vegetarian: "Wegetariańskie",
+    vege: "Wegetariańskie",
     vegan: "Wegańskie",
     glutenFree: "Bez glutenu",
     lactoseFree: "Bez laktozy",
@@ -59,13 +59,36 @@ export default function Input(props: InputProps) {
     );
   }
 
+  if (type === "checkbox") {
+    return (
+      <div>
+        <input
+          type="radio"
+          id={name}
+          name="role"
+          value={name}
+          className="sr-only peer h-10 w-fit"
+          required
+          checked={value === name}
+          onChange={handleChange}
+        />
+        <label
+          htmlFor={name}
+          className="flex items-center p-2 h-10 bg-white border border-gray-300 rounded-xl cursor-pointer peer-checked:border-purple-600 peer-checked:text-purple-600 hover:text-purple-800 hover:bg-gray-50"
+        >
+          {labelMap[name]}
+        </label>
+      </div>
+    );
+  }
+
   return (
     <div>
       <label className="block text-sm text-gray-600 my-1">{labelMap[name]}</label>
       <input
         type={type}
         name={name}
-        value={value ?? ""}
+        value={typeof value === "string" ? value : ""}
         onChange={handleChange}
         className="w-full h-10 p-2 border border-gray-300 rounded-xl"
         required={name !== "location"}

@@ -21,6 +21,7 @@ export type Menu = {
   vegan?: boolean;
   glutenFree?: boolean;
   lactoseFree?: boolean;
+  sugarFree?: boolean;
   ingredients?: Ingredient[];
 };
 
@@ -82,65 +83,58 @@ export default function MenuForm(props: { menu?: Menu }) {
       <input type="hidden" name="id" value={formData?.id ?? ""} />
       <Input name="category" value={formData?.category} handleChange={handleChange} />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-6">
         <Input name="name" value={formData?.name} handleChange={handleChange} />
-        <Input name="price" value={formData?.price} handleChange={handleChange} />
+        <Input type="number" name="price" value={formData?.price} handleChange={handleChange} />
         <Input type="number" name="weight" value={formData?.weight} handleChange={handleChange} />
         <Input type="number" name="cal" value={formData?.cal} handleChange={handleChange} />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-6">
         <Input type="number" name="protein" value={formData?.protein} handleChange={handleChange} />
         <Input type="number" name="fat" value={formData?.fat} handleChange={handleChange} />
         <Input type="number" name="carbs" value={formData?.carbs} handleChange={handleChange} />
-
-        {/*<label htmlFor="vege">Vege</label>*/}
-        {/*<input*/}
-        {/*  type="checkbox"*/}
-        {/*  name="vegetarian"*/}
-        {/*  id="vege"*/}
-        {/*  value={formData?.vege}*/}
-        {/*  handleChange={handleChange}*/}
-        {/*/>*/}
-
-        {/*<label htmlFor="vegan">Vegan</label>*/}
-        {/*<input*/}
-        {/*  type="checkbox"*/}
-        {/*  name="vegan"*/}
-        {/*  id="vegan"*/}
-        {/*  value={formData?.vegan}*/}
-        {/*  handleChange={handleChange}*/}
-        {/*/>*/}
-        {/*<label htmlFor="glutenFree">Gluten Free</label>*/}
-        {/*<input*/}
-        {/*  type="checkbox"*/}
-        {/*  name="glutenFree"*/}
-        {/*  id="glutenFree"*/}
-        {/*  value={formData?.glutenFree}*/}
-        {/*  handleChange={handleChange}*/}
-        {/*/>*/}
-        {/*<label htmlFor="lactoseFree">Lactose Free</label>*/}
-        {/*<input*/}
-        {/*  type="checkbox"*/}
-        {/*  name="lactoseFree"*/}
-        {/*  id="lactoseFree"*/}
-        {/*  value={formData?.lactoseFree}*/}
-        {/*  handleChange={handleChange}*/}
-        {/*/>*/}
-        {/*<label htmlFor="sugarFree">Sugar Free</label>*/}
-        {/*<input*/}
-        {/*  type="checkbox"*/}
-        {/*  name="sugarFree"*/}
-        {/*  id="sugarFree"*/}
-        {/*  value={formData?.sugarFree}*/}
-        {/*  handleChange={handleChange}*/}
-        {/*/>*/}
-
-        {/*<select name="ingredients" value={formData?.ingredients} handleChange={handleChange}>*/}
-        {/*  {ingredients.map((ingredient: Ingredient) => (*/}
-        {/*    <option key={ingredient.id} value={ingredient.id}>*/}
-        {/*      {ingredient.name}*/}
-        {/*    </option>*/}
-        {/*  ))}*/}
-        {/*</select>*/}
       </div>
+
+      <div className="w-fit pt-6 flex gap-3 flex-wrap">
+        <Input
+          type="checkbox"
+          name="vege"
+          value={formData?.vegetarian}
+          handleChange={handleChange}
+        />
+
+        <Input type="checkbox" name="vegan" value={formData?.vegan} handleChange={handleChange} />
+
+        <Input
+          type="checkbox"
+          name="glutenFree"
+          value={formData?.glutenFree}
+          handleChange={handleChange}
+        />
+
+        <Input
+          type="checkbox"
+          name="lactoseFree"
+          value={formData?.lactoseFree}
+          handleChange={handleChange}
+        />
+
+        <Input
+          type="checkbox"
+          name="sugarFree"
+          value={formData?.sugarFree}
+          handleChange={handleChange}
+        />
+      </div>
+
+      {/*<select name="ingredients" value={formData?.ingredients} handleChange={handleChange}>*/}
+      {/*  {ingredients.map((ingredient: Ingredient) => (*/}
+      {/*    <option key={ingredient.id} value={ingredient.id}>*/}
+      {/*      {ingredient.name}*/}
+      {/*    </option>*/}
+      {/*  ))}*/}
+      {/*</select>*/}
 
       <div className="flex gap-3 justify-end items-center mt-10">
         {error && <div className="text-red-500">{error}</div>}
