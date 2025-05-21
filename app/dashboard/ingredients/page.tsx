@@ -27,14 +27,21 @@ async function Ingredients() {
                 className="bg-gray-100 px-3 py-1 rounded-xl text-gray-600 flex gap-1 items-center justify-center"
               >
                 {ingredient.name}
-                <Image
-                  src="/close.svg"
-                  alt="logo"
-                  width={0}
-                  height={0}
-                  className="w-5 cursor-pointer"
-                  priority
-                />
+                <form action={`/api/ingredients/${ingredient.id}`} method="POST" className="flex">
+                  <input type="hidden" name="method" value="DELETE" />
+                  <input type="hidden" name="id" value={ingredient.id} />
+
+                  <button>
+                    <Image
+                      src="/close.svg"
+                      alt="logo"
+                      width={0}
+                      height={0}
+                      className="w-5 cursor-pointer"
+                      priority
+                    />
+                  </button>
+                </form>
               </div>
             ))}
           </div>
