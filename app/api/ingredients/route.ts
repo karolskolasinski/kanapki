@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
 
@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const usersRef = collection(db, "ingredients");
-    await addDoc(usersRef, { name: body });
+    await addDoc(usersRef, { name: body, createdAt: serverTimestamp() });
 
     return NextResponse.json({ success: true });
   } catch (e) {

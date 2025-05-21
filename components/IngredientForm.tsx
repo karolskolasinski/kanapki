@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 export type Ingredient = {
   id?: string;
   name?: string;
+  createdAt?: unknown;
 };
 
 export default function IngredientForm() {
@@ -30,7 +31,8 @@ export default function IngredientForm() {
       }
 
       setError(null);
-      // router.push("/dashboard/users");
+      setFormData("");
+      router.push("/dashboard/ingredients");
     } catch (err) {
       console.error(err);
       setError("Błąd zapisu");
@@ -44,6 +46,7 @@ export default function IngredientForm() {
         <input
           type="text"
           name="ingredient"
+          maxLength={30}
           value={formData}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData(e.target.value)}
           className="h-10 p-2 border border-gray-300 rounded-xl"

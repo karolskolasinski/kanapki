@@ -1,11 +1,12 @@
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import IngredientForm, { Ingredient } from "@/components/IngredientForm";
 import Image from "next/image";
 
 async function Ingredients() {
   const docRef = collection(db, "ingredients");
-  const docSnap = await getDocs(docRef);
+  const q = query(docRef, orderBy("createdAt", "desc"));
+  const docSnap = await getDocs(q);
   const ingredients: Ingredient[] = docSnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
@@ -19,7 +20,7 @@ async function Ingredients() {
 
       <div className="bg-white rounded-3xl p-4 lg:p-8">
         <div className="mb-4">
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             {ingredients.map((ingredient) => (
               <div
                 key={ingredient.id}
