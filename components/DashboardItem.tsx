@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 type DashboardItemProps = {
-  item: "users" | "ingredients" | "menu" | "location" | "password";
+  item: "users" | "ingredients" | "dishes" | "location" | "password";
   count: number;
 };
 
@@ -19,7 +19,7 @@ const items = {
     bg: "bg-[#f9ebfd]",
     bgHover: "hover:border-pink-200",
   },
-  menu: {
+  dishes: {
     label: "Menu",
     icon: "dish.svg",
     bg: "bg-[#e9f6fa]",

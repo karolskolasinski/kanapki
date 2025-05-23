@@ -1,19 +1,40 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { User } from "@/app/dashboard/users/page";
 
-async function Menu() {
-  const menuDocRef = collection(db, "menu");
-  const menuQ = query(menuDocRef, orderBy("createdAt", "desc"));
-  const menuDocSnap = await getDocs(menuQ);
-  const menu = menuDocSnap.docs.map((doc) => ({
+export type Dish = {
+  id?: string;
+  createdAt?: unknown;
+  name?: string;
+  category?: string;
+  price?: number;
+  weight?: number;
+  kcal?: number;
+  protein?: number;
+  fat?: number;
+  carbs?: number;
+  userId?: string;
+  vegetarian?: boolean;
+  vegan?: boolean;
+  glutenFree?: boolean;
+  lactoseFree?: boolean;
+  sugarFree?: boolean;
+  ingredients?: string[];
+};
+
+async function Dishes() {
+  const dishesRef = collection(db, "dishes");
+  const dishesQ = query(dishesRef, orderBy("createdAt", "desc"));
+  const dishesSnap = await getDocs(dishesQ);
+  const dishes: Dish[] = dishesSnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
 
-  const usersDocRef = collection(db, "users");
-  const usersQ = query(usersDocRef, orderBy("updatedAt", "desc"));
-  const usersDocSnap = await getDocs(usersQ);
-  const users = usersDocSnap.docs.map((doc) => ({
+  const usersRef = collection(db, "users");
+  const usersQ = query(usersRef, orderBy("updatedAt", "desc"));
+  const usersSnap = await getDocs(usersQ);
+  const users: User[] = usersSnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
   }));
@@ -35,6 +56,7 @@ async function Menu() {
                   key={user.id}
                   className="bg-gray-100 px-3 py-1 rounded-xl text-gray-600 flex gap-1 items-center justify-center"
                 >
+                  {user.name}
                 </div>
               );
             })}
@@ -42,11 +64,11 @@ async function Menu() {
         </div>
       </div>
 
-      <form action={`/dashboard/menu/new`} method="GET" className="flex justify-end mt-10">
+      <form action={`/dashboard/dishes/new`} method="GET" className="flex justify-end mt-10">
         <button className="button">Dodaj</button>
       </form>
     </section>
   );
 }
 
-export default Menu;
+export default Dishes;

@@ -30,7 +30,7 @@ export default async function Dashboard() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <DashboardItem item="users" count={usersCount} />
         <DashboardItem item="ingredients" count={ingredientsCount} />
-        <DashboardItem item="menu" count={menuCount} />
+        <DashboardItem item="dishes" count={menuCount} />
         <DashboardItem item="location" count={0} />
         <DashboardItem item="password" count={0} />
         <LogoutButton />

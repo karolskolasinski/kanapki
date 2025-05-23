@@ -18,7 +18,7 @@ export default function Input(props: InputProps) {
     category: "Kategoria",
     price: "Cena",
     weight: "Waga",
-    cal: "Kalorie",
+    kcal: "Kalorie",
     protein: "Białko",
     fat: "Tłuszcz",
     carbs: "Węglowodany",
@@ -59,24 +59,22 @@ export default function Input(props: InputProps) {
     );
   }
 
-  if (type === "checkbox") {
+  if (type === "checkbox" || type === "ingredient") {
     return (
       <div>
         <input
-          type="radio"
+          type="checkbox"
           id={name}
-          name="role"
-          value={name}
+          name={name}
           className="sr-only peer h-10 w-fit"
-          required
-          checked={value === name}
           onChange={handleChange}
+          {...type === "ingredient" ? { value: type } : {}}
         />
         <label
           htmlFor={name}
           className="flex items-center p-2 h-10 bg-white border border-gray-300 rounded-xl cursor-pointer peer-checked:border-purple-600 peer-checked:text-purple-600 hover:text-purple-800 hover:bg-gray-50"
         >
-          {labelMap[name]}
+          {value}
         </label>
       </div>
     );
@@ -91,7 +89,8 @@ export default function Input(props: InputProps) {
         value={typeof value === "string" ? value : ""}
         onChange={handleChange}
         className="w-full h-10 p-2 border border-gray-300 rounded-xl"
-        required={name !== "location"}
+        // required={name !== "location"}
+        min={type === "number" ? 0 : undefined}
       />
     </div>
   );
