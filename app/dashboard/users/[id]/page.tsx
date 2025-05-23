@@ -14,7 +14,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
       user = {
         id: docSnap.id,
         ...data,
-        updatedAt: data.updatedAt ? data.updatedAt.toDate() : null,
+        updatedAt: data.updatedAt.toDate(),
       };
     } else {
       throw new Error("Nie znaleziono pojazdu o takim id.");

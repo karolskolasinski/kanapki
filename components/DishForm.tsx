@@ -5,8 +5,16 @@ import { useRouter } from "next/navigation";
 import { Ingredient } from "@/components/IngredientForm";
 import Input from "@/components/Input";
 import { Dish } from "@/app/dashboard/dishes/page";
+import Select from "@/components/Select";
+import { User } from "@/app/dashboard/users/page";
 
-export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[] }) {
+type DishFormProps = {
+  dish?: Dish;
+  ingredients: Ingredient[];
+  users: User[];
+};
+
+export default function DishForm(props: DishFormProps) {
   const [formData, setFormData] = useState<Dish>();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -23,8 +31,8 @@ export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[]
     }
   }, [props.dish]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "ingredient") {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    if (e.target.value === "ingredient" && e.target instanceof HTMLInputElement) {
       const ingredients = new Set(formData?.ingredients);
       if (e.target.checked) {
         ingredients.add(e.target.name);
@@ -48,27 +56,25 @@ export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[]
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(formData);
+    try {
+      const response = await fetch("/api/dishes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
 
-    // try {
-    //   const response = await fetch("/api/menu", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(formData),
-    //   });
-    //
-    //   const result = await response.json();
-    //   if (!response.ok) {
-    //     setError(result.error || "Błąd zapisu");
-    //     return;
-    //   }
-    //
-    //   setError(null);
-    //   router.push("/dashboard/menu");
-    // } catch (err) {
-    //   console.error(err);
-    //   setError("Błąd zapisu");
-    // }
+      const result = await response.json();
+      if (!response.ok) {
+        setError(result.error || "Błąd zapisu");
+        return;
+      }
+
+      setError(null);
+      router.push("/dashboard/dishes");
+    } catch (err) {
+      console.error(err);
+      setError("Błąd zapisu");
+    }
   };
 
   return (
@@ -79,7 +85,16 @@ export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[]
       </small>
 
       <input type="hidden" name="id" value={formData?.id ?? ""} />
-      <Input name="category" value={formData?.category} handleChange={handleChange} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6">
+        <Select
+          name="userId"
+          value={formData?.userId}
+          handleChange={handleChange}
+          options={props.users}
+        />
+        <Input name="category" value={formData?.category} handleChange={handleChange} />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-6">
         <Input name="name" value={formData?.name} handleChange={handleChange} />
@@ -95,7 +110,7 @@ export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[]
       </div>
 
       <div className="pt-6">
-        <div className="text-sm text-gray-600 my-1">Opcje</div>
+        <label className="block text-sm text-gray-600 my-1">Opcje</label>
         <div className="w-fit flex gap-3 flex-wrap">
           <Input
             type="checkbox"
@@ -135,7 +150,7 @@ export default function DishForm(props: { dish?: Dish; ingredients: Ingredient[]
       </div>
 
       <div className="pt-6">
-        <div className="text-sm text-gray-600 my-1">Składniki</div>
+        <label className="block text-sm text-gray-600 my-1">Składniki</label>
 
         <div className="flex flex-wrap gap-3">
           {props.ingredients.map((ingredient: Ingredient) => (

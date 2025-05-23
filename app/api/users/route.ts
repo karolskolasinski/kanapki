@@ -29,8 +29,8 @@ export async function POST(req: NextRequest) {
     fullName: body.fullName,
     model: body.model,
     registration: body.registration,
-    location: body?.location ?? "",
-    role: body?.role,
+    ...body?.location ? { location: body.location } : {},
+    ...body?.role ? { role: body.role } : {},
   };
 
   try {

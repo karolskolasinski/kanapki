@@ -16,6 +16,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
       dish = {
         id: dishesSnap.id,
         ...data,
+        createdAt: data.createdAt.toDate(),
       };
     } else {
       throw new Error("Nie znaleziono pozycji menu o takim id.");
@@ -24,11 +25,25 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
 
   const ingredientsRef = collection(db, "ingredients");
   const ingredientsSnap = await getDocs(ingredientsRef);
-  ingredients = ingredientsSnap.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-    createdAt: doc.data().createdAt.toDate(),
-  }));
+  ingredients = ingredientsSnap.docs.map((doc) => {
+    const data = doc.data();
+    return ({
+      id: doc.id,
+      ...data,
+      createdAt: data.createdAt.toDate(),
+    });
+  });
+
+  const usersRef = collection(db, "users");
+  const usersSnap = await getDocs(usersRef);
+  const users = usersSnap.docs.map((doc) => {
+    const data = doc.data();
+    return ({
+      id: doc.id,
+      ...data,
+      updatedAt: data.updatedAt.toDate(),
+    });
+  });
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -36,7 +51,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
         <small>Formularz pozycji menu</small>
       </div>
 
-      <DishForm dish={dish} ingredients={ingredients} />
+      <DishForm dish={dish} ingredients={ingredients} users={users} />
     </section>
   );
 }
