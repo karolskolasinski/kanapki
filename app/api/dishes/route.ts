@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
 import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
-import bcrypt from "bcryptjs";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
 
@@ -9,7 +8,7 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
   }
 
   const body = await req.json();
@@ -47,6 +46,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ error: "Nie udało się zapisać pozycji menu" }, { status: 500 });
+    return NextResponse.json({ error: "Błąd zapisu" }, { status: 500 });
   }
 }

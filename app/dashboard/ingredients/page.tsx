@@ -1,15 +1,16 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import IngredientForm, { Ingredient } from "@/components/IngredientForm";
-import Image from "next/image";
+import { Ingredient } from "@/components/IngredientForm";
+import IngredientsEditor from "@/components/IngredientsEditor";
 
 async function Ingredients() {
   const docRef = collection(db, "ingredients");
-  const q = query(docRef, orderBy("createdAt", "desc"));
+  const q = query(docRef, orderBy("createdAt", "asc"));
   const docSnap = await getDocs(q);
   const ingredients: Ingredient[] = docSnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate().toISOString(),
   }));
 
   return (
@@ -19,35 +20,7 @@ async function Ingredients() {
       </div>
 
       <div className="bg-white rounded-3xl p-4 lg:p-8">
-        <div className="mb-4">
-          <div className="flex gap-3 flex-wrap">
-            {ingredients.map((ingredient) => (
-              <div
-                key={ingredient.id}
-                className="bg-gray-100 px-3 py-1 rounded-xl text-gray-600 flex gap-1 items-center justify-center"
-              >
-                {ingredient.name}
-                <form action={`/api/ingredients/${ingredient.id}`} method="POST" className="flex">
-                  <input type="hidden" name="method" value="DELETE" />
-                  <input type="hidden" name="id" value={ingredient.id} />
-
-                  <button>
-                    <Image
-                      src="/close.svg"
-                      alt="logo"
-                      width={0}
-                      height={0}
-                      className="w-5 cursor-pointer"
-                      priority
-                    />
-                  </button>
-                </form>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <IngredientForm />
+        <IngredientsEditor ingredients={ingredients} />
       </div>
     </section>
   );

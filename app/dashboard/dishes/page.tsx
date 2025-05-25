@@ -49,7 +49,7 @@ async function Dishes() {
         <div className="mb-4">
           <div className="flex gap-3 flex-wrap">
             {users.map((user) => {
-              // const userMenu = menu.filter((item) => item.userId === user.id);
+              const found = dishes.filter((dish) => dish.userId === user.id);
 
               return (
                 <div

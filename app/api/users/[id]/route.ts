@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
   }
 
   const body = await req.formData();
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.redirect(new URL("/dashboard/users", req.url));
     } catch (e) {
       console.error(e);
-      return NextResponse.json({ error: "Failed to delete user" }, { status: 500 });
+      return NextResponse.json({ error: "Błąd usuwania" }, { status: 500 });
     }
   }
 

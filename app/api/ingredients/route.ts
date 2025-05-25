@@ -8,17 +8,17 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
   }
 
   try {
     const body = await req.json();
     const usersRef = collection(db, "ingredients");
-    await addDoc(usersRef, { name: body, createdAt: serverTimestamp() });
+    await addDoc(usersRef, { name: body.name, createdAt: serverTimestamp() });
 
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ error: "Failed to save ingredient" }, { status: 500 });
+    return NextResponse.json({ error: "Błąd zapisu" }, { status: 500 });
   }
 }

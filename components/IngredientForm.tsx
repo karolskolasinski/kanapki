@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 export type Ingredient = {
@@ -9,16 +9,27 @@ export type Ingredient = {
   createdAt?: unknown;
 };
 
-export default function IngredientForm() {
-  const [formData, setFormData] = useState<string>("");
+type IngredientFormProps = {
+  ingredient?: Ingredient;
+};
+
+export default function IngredientForm(props: IngredientFormProps) {
+  const [formData, setFormData] = useState<Ingredient>();
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    if (props.ingredient) {
+      setFormData(props.ingredient);
+    }
+  }, [props.ingredient]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const response = await fetch("/api/ingredients", {
+      const URL = props.ingredient ? `/api/ingredients/${props.ingredient.id}` : "/api/ingredients";
+      const response = await fetch(URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -31,7 +42,7 @@ export default function IngredientForm() {
       }
 
       setError(null);
-      setFormData("");
+      setFormData(undefined);
       router.push("/dashboard/ingredients");
     } catch (err) {
       console.error(err);
@@ -39,23 +50,32 @@ export default function IngredientForm() {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
   return (
     <form onSubmit={handleSubmit} className="flex gap-3 items-end">
       <div className="flex flex-col w-96">
-        <label className="block text-sm text-gray-600 my-1">Nowy składnik</label>
+        <label className="block text-sm text-gray-600 my-1">
+          {props.ingredient ? "Edytuj składnik" : "Nowy składnik"}
+        </label>
         <input
           type="text"
-          name="ingredient"
+          name="name"
           maxLength={30}
-          value={formData}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFormData(e.target.value)}
+          value={formData?.name ?? ""}
+          onChange={handleChange}
           className="h-10 p-2 border border-gray-300 rounded-xl"
           required
         />
       </div>
 
       <button type="submit" className="button">
-        Dodaj nowy
+        {props.ingredient ? "Zapisz" : "Dodaj nowy"}
       </button>
       {error && <div className="h-10 text-red-500 flex items-center">{error}</div>}
     </form>

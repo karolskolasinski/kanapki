@@ -18,22 +18,22 @@ export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
   }
 
-  const body = await req.json();
-  const id = body?.id;
-  const data = {
-    name: body.name,
-    email: body.email,
-    fullName: body.fullName,
-    model: body.model,
-    registration: body.registration,
-    ...body?.location ? { location: body.location } : {},
-    ...body?.role ? { role: body.role } : {},
-  };
-
   try {
+    const body = await req.json();
+    const id = body?.id;
+    const data = {
+      name: body.name,
+      email: body.email,
+      fullName: body.fullName,
+      model: body.model,
+      registration: body.registration,
+      ...body?.location ? { location: body.location } : {},
+      ...body?.role ? { role: body.role } : {},
+    };
+
     if (id) {
       const userRef = doc(db, "users", id);
       await updateDoc(userRef, {
@@ -60,6 +60,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ error: "Failed to save user" }, { status: 500 });
+    return NextResponse.json({ error: "Błąd zapisu" }, { status: 500 });
   }
 }
