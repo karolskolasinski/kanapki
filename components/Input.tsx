@@ -2,6 +2,7 @@ type InputProps = {
   name: string;
   type?: string;
   value?: string | number | boolean;
+  checked?: boolean;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -59,7 +60,7 @@ export default function Input(props: InputProps) {
     );
   }
 
-  if (type === "checkbox" || type === "ingredient") {
+  if (type === "checkbox" || type === "ingredient" || type === "userId") {
     return (
       <div>
         <input
@@ -68,7 +69,8 @@ export default function Input(props: InputProps) {
           name={name}
           className="sr-only peer h-10 w-fit"
           onChange={handleChange}
-          {...type === "ingredient" ? { value: type } : {}}
+          checked={props.checked ?? false}
+          {...type === "ingredient" || type === "userId" ? { value: type } : {}}
         />
         <label
           htmlFor={name}

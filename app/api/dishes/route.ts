@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     ...body.protein ? { protein: body?.protein } : {},
     ...body.fat ? { fat: body?.fat } : {},
     ...body.carbs ? { carbs: body?.carbs } : {},
-    userId: body.userId,
+    userIds: body.userIds?.length ? body.userIds : [],
     ...body.vegetarian ? { vegetarian: body?.vegetarian } : {},
     ...body.vegan ? { vegan: body?.vegan } : {},
     ...body.glutenFree ? { glutenFree: body?.glutenFree } : {},

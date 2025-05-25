@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Ingredient } from "@/components/IngredientForm";
 import Input from "@/components/Input";
 import { Dish } from "@/app/dashboard/dishes/page";
-import Select from "@/components/Select";
 import { User } from "@/app/dashboard/users/page";
 
 type DishFormProps = {
@@ -42,6 +41,21 @@ export default function DishForm(props: DishFormProps) {
       setFormData((prev) => ({
         ...prev,
         ingredients: Array.from(ingredients),
+      }));
+
+      return;
+    }
+
+    if (e.target.value === "userId" && e.target instanceof HTMLInputElement) {
+      const userIds = new Set(formData?.userIds);
+      if (e.target.checked) {
+        userIds.add(e.target.name);
+      } else {
+        userIds.delete(e.target.name);
+      }
+      setFormData((prev) => ({
+        ...prev,
+        userIds: Array.from(userIds),
       }));
 
       return;
@@ -87,13 +101,47 @@ export default function DishForm(props: DishFormProps) {
       <input type="hidden" name="id" value={formData?.id ?? ""} />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-6">
-        <Select
-          name="userId"
-          value={formData?.userId}
-          handleChange={handleChange}
-          options={props.users}
-        />
-        <Input name="category" value={formData?.category} handleChange={handleChange} />
+        <div>
+          <div className="block text-sm text-gray-600 my-1">Pojazd</div>
+          <div className="flex gap-3">
+            {props.users.map((user) => (
+              <Input
+                key={user.id}
+                type="userId"
+                name={user.id!}
+                value={user.name}
+                checked={formData?.userIds?.includes(user.id!)}
+                handleChange={handleChange}
+              />
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <div className="block text-sm text-gray-600 my-1">Kategoria</div>
+          <ul className="flex gap-3">
+            {["jc", "nz"].map((category) => (
+              <li key={category}>
+                <input
+                  type="radio"
+                  id={category}
+                  name="category"
+                  value={category}
+                  className="sr-only peer h-10 w-fit"
+                  required
+                  checked={formData?.category === category}
+                  onChange={handleChange}
+                />
+                <label
+                  htmlFor={category.toLowerCase()}
+                  className="flex items-center p-2 h-10 bg-white border border-gray-300 rounded-xl cursor-pointer peer-checked:border-purple-600 peer-checked:text-purple-600 hover:text-purple-800 hover:bg-gray-50"
+                >
+                  {category === "jc" ? "Jeszcze ciepłe" : "Nieźle zmrożone"}
+                </label>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 pt-6">
@@ -114,8 +162,9 @@ export default function DishForm(props: DishFormProps) {
         <div className="w-fit flex gap-3 flex-wrap">
           <Input
             type="checkbox"
-            name="vege"
+            name="vegetarian"
             value="Wegetariańskie"
+            checked={formData?.vegetarian ?? false}
             handleChange={handleChange}
           />
 
@@ -123,6 +172,7 @@ export default function DishForm(props: DishFormProps) {
             type="checkbox"
             name="vegan"
             value="Wegańskie"
+            checked={formData?.vegan ?? false}
             handleChange={handleChange}
           />
 
@@ -130,6 +180,7 @@ export default function DishForm(props: DishFormProps) {
             type="checkbox"
             name="glutenFree"
             value="Bez glutenu"
+            checked={formData?.glutenFree ?? false}
             handleChange={handleChange}
           />
 
@@ -137,6 +188,7 @@ export default function DishForm(props: DishFormProps) {
             type="checkbox"
             name="lactoseFree"
             value="Bez laktozy"
+            checked={formData?.lactoseFree ?? false}
             handleChange={handleChange}
           />
 
@@ -144,6 +196,7 @@ export default function DishForm(props: DishFormProps) {
             type="checkbox"
             name="sugarFree"
             value="Bez cukru"
+            checked={formData?.sugarFree ?? false}
             handleChange={handleChange}
           />
         </div>
@@ -158,8 +211,9 @@ export default function DishForm(props: DishFormProps) {
               key={ingredient.id}
               type="ingredient"
               name={ingredient?.id ?? ""}
-              handleChange={handleChange}
               value={ingredient.name}
+              checked={formData?.ingredients?.includes(ingredient.id ?? "")}
+              handleChange={handleChange}
             />
           ))}
         </div>

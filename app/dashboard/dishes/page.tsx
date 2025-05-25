@@ -1,6 +1,7 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { User } from "@/app/dashboard/users/page";
+import Link from "next/link";
 
 export type Dish = {
   id?: string;
@@ -13,7 +14,7 @@ export type Dish = {
   protein?: number;
   fat?: number;
   carbs?: number;
-  userId?: string;
+  userIds?: string[];
   vegetarian?: boolean;
   vegan?: boolean;
   glutenFree?: boolean;
@@ -49,8 +50,12 @@ async function Dishes() {
         <div className="mb-4">
           <div className="grid lg:grid-cols-2 gap-3">
             {users.map((user) => {
-              const jc = dishes.filter((dish) => dish.userId === user.id && dish.category === "jc");
-              const nz = dishes.filter((dish) => dish.userId === user.id && dish.category === "nz");
+              const jc = dishes.filter((dish) =>
+                dish.userIds?.includes(user.id ?? "") && dish.category === "jc"
+              );
+              const nz = dishes.filter((dish) =>
+                dish.userIds?.includes(user.id ?? "") && dish.category === "nz"
+              );
 
               return (
                 <div
@@ -60,13 +65,16 @@ async function Dishes() {
                   <strong className="block mb-5">{user.name}</strong>
 
                   {jc.map((dish) => (
-                    <div key={dish.id} className="flex items-center text-gray-500">
-                      <div className="pr-4">on/off</div>
-                      <div className="w-48">{dish.name}</div>
-                      <div className="flex-1 mx-2 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dots.svg')]" />
-                      <div className="w-16 text-right">{dish.price}</div>
-                      <div className="pl-4">edit</div>
-                      <div className="pl-4">delete</div>
+                    <div key={dish.id}>
+                      <h2>Jeszcze ciepłe</h2>
+                      <div className="flex items-center text-gray-500">
+                        <div className="pr-4">on/off</div>
+                        <div className="w-48">{dish.name}</div>
+                        <div className="flex-1 mx-2 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dots.svg')]" />
+                        <div className="w-16 text-right">{dish.price}</div>
+                        <Link href={`/dashboard/dishes/${dish.id}`} className="pl-4">edit</Link>
+                        <div className="pl-4">delete</div>
+                      </div>
                     </div>
                   ))}
                 </div>
