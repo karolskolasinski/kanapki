@@ -61,7 +61,7 @@ export default function IngredientForm(props: IngredientFormProps) {
     <form onSubmit={handleSubmit} className="flex gap-3 items-end">
       <div className="flex flex-col w-96">
         <label className="block text-sm text-gray-600 my-1">
-          {props.ingredient ? "Edytuj składnik" : "Nowy składnik"}
+          {formData?.id ? "Edytuj składnik" : "Nowy składnik"}
         </label>
         <input
           type="text"
@@ -75,7 +75,7 @@ export default function IngredientForm(props: IngredientFormProps) {
       </div>
 
       <button type="submit" className="button">
-        {props.ingredient ? "Zapisz" : "Dodaj nowy"}
+        {formData?.id ? "Zapisz" : "Dodaj nowy"}
       </button>
       {error && <div className="h-10 text-red-500 flex items-center">{error}</div>}
     </form>

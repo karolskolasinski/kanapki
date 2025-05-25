@@ -31,7 +31,7 @@ async function Dishes() {
     ...doc.data(),
   }));
 
-  const usersRef = collection(db, "users");
+  const usersRef = collection(db, "users"); // where id === currentId / if admin let it as it is
   const usersQ = query(usersRef, orderBy("updatedAt", "desc"));
   const usersSnap = await getDocs(usersQ);
   const users: User[] = usersSnap.docs.map((doc) => ({
@@ -47,16 +47,28 @@ async function Dishes() {
 
       <div className="bg-white rounded-3xl p-4 lg:p-8">
         <div className="mb-4">
-          <div className="flex gap-3 flex-wrap">
+          <div className="grid lg:grid-cols-2 gap-3">
             {users.map((user) => {
-              const found = dishes.filter((dish) => dish.userId === user.id);
+              const jc = dishes.filter((dish) => dish.userId === user.id && dish.category === "jc");
+              const nz = dishes.filter((dish) => dish.userId === user.id && dish.category === "nz");
 
               return (
                 <div
                   key={user.id}
-                  className="bg-gray-100 px-3 py-1 rounded-xl text-gray-600 flex gap-1 items-center justify-center"
+                  className="border border-gray-200 rounded-xl p-3 text-center text-xl"
                 >
-                  {user.name}
+                  <strong className="block mb-5">{user.name}</strong>
+
+                  {jc.map((dish) => (
+                    <div key={dish.id} className="flex items-center text-gray-500">
+                      <div className="pr-4">on/off</div>
+                      <div className="w-48">{dish.name}</div>
+                      <div className="flex-1 mx-2 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dots.svg')]" />
+                      <div className="w-16 text-right">{dish.price}</div>
+                      <div className="pl-4">edit</div>
+                      <div className="pl-4">delete</div>
+                    </div>
+                  ))}
                 </div>
               );
             })}
