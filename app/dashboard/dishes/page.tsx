@@ -2,6 +2,7 @@ import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { User } from "@/app/dashboard/users/page";
 import Link from "next/link";
+import Image from "next/image";
 
 export type Dish = {
   id?: string;
@@ -32,13 +33,16 @@ async function Dishes() {
     ...doc.data(),
   }));
 
-  const usersRef = collection(db, "users"); // where id === currentId / if admin let it as it is
+  const usersRef = collection(db, "users"); // todo: where id === currentId / if admin let it as it is
   const usersQ = query(usersRef, orderBy("updatedAt", "desc"));
   const usersSnap = await getDocs(usersQ);
-  const users: User[] = usersSnap.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
+  const users: User[] = usersSnap.docs.map((doc) => {
+    return ({
+      id: doc.id,
+      ...doc.data(),
+    });
+  });
+  const gridCols = users.length > 1 ? "lg:grid-cols-2" : "lg:grid-cols-1";
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -46,42 +50,43 @@ async function Dishes() {
         <small>Menu</small>
       </div>
 
-      <div className="bg-white rounded-3xl p-4 lg:p-8">
-        <div className="mb-4">
-          <div className="grid lg:grid-cols-2 gap-3">
-            {users.map((user) => {
-              const jc = dishes.filter((dish) =>
-                dish.userIds?.includes(user.id ?? "") && dish.category === "jc"
-              );
-              const nz = dishes.filter((dish) =>
-                dish.userIds?.includes(user.id ?? "") && dish.category === "nz"
-              );
+      <div className={`grid ${gridCols} gap-5`}>
+        {users.map((user) => {
+          const jc = dishes.filter((dish) =>
+            dish.userIds?.includes(user.id ?? "") && dish.category === "jc"
+          );
+          const nz = dishes.filter((dish) =>
+            dish.userIds?.includes(user.id ?? "") && dish.category === "nz"
+          );
 
-              return (
-                <div
-                  key={user.id}
-                  className="border border-gray-200 rounded-xl p-3 text-center text-xl"
-                >
-                  <strong className="block mb-5">{user.name}</strong>
+          return (
+            <div
+              key={user.id}
+              className="bg-white rounded-3xl p-4 lg:p-8"
+            >
+              <h1 className="block mb-5 font-bold text-xl">{user.name}</h1>
 
-                  {jc.map((dish) => (
-                    <div key={dish.id}>
-                      <h2>Jeszcze ciepłe</h2>
-                      <div className="flex items-center text-gray-500">
-                        <div className="pr-4">on/off</div>
-                        <div className="w-48">{dish.name}</div>
-                        <div className="flex-1 mx-2 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dots.svg')]" />
-                        <div className="w-16 text-right">{dish.price}</div>
-                        <Link href={`/dashboard/dishes/${dish.id}`} className="pl-4">edit</Link>
-                        <div className="pl-4">delete</div>
-                      </div>
+              {jc.map((dish) => (
+                <div key={dish.id}>
+                  <h2 className="my-3 text-orange-400">Jeszcze ciepłe</h2>
+                  <div className="text-sm flex">
+                    <div className="flex-1 flex items-baseline">
+                      <div className="">{dish.name}</div>
+
+                      <div className="flex-1 w-22 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dot.svg')]" />
+
+                      <div className="">{dish.price}</div>
                     </div>
-                  ))}
+
+                    <Link href={`/dashboard/dishes/${dish.id}`} className="pl-3">
+                      <Image src="/edit.svg" alt="edycja" width={20} height={20} />
+                    </Link>
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        </div>
+              ))}
+            </div>
+          );
+        })}
       </div>
 
       <form action={`/dashboard/dishes/new`} method="GET" className="flex justify-end mt-10">
