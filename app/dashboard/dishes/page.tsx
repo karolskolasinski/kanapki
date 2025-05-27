@@ -1,8 +1,8 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { User } from "@/app/dashboard/users/page";
+import MenuItem from "@/components/MenuItem";
 import Link from "next/link";
-import Image from "next/image";
 
 export type Dish = {
   id?: string;
@@ -31,18 +31,19 @@ async function Dishes() {
   const dishes: Dish[] = dishesSnap.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
+    createdAt: doc.data().createdAt?.toDate().toISOString(),
   }));
 
   const usersRef = collection(db, "users"); // todo: where id === currentId / if admin let it as it is
   const usersQ = query(usersRef, orderBy("updatedAt", "desc"));
   const usersSnap = await getDocs(usersQ);
-  const users: User[] = usersSnap.docs.map((doc) => {
-    return ({
-      id: doc.id,
-      ...doc.data(),
-    });
-  });
+  const users: User[] = usersSnap.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
   const gridCols = users.length > 1 ? "lg:grid-cols-2" : "lg:grid-cols-1";
+
+  const { groupedDishes, unassigned } = groupDishes(users, dishes);
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -50,50 +51,75 @@ async function Dishes() {
         <small>Menu</small>
       </div>
 
-      <div className={`grid ${gridCols} gap-5`}>
-        {users.map((user) => {
-          const jc = dishes.filter((dish) =>
-            dish.userIds?.includes(user.id ?? "") && dish.category === "jc"
-          );
-          const nz = dishes.filter((dish) =>
-            dish.userIds?.includes(user.id ?? "") && dish.category === "nz"
-          );
+      <div className={`grid ${gridCols} gap-5 pb-5`}>
+        {users.map((user) => (
+          <div key={user.id} className="bg-white rounded-3xl p-4 lg:p-8">
+            <h1 className="block mb-5 font-bold text-xl">{user.name}</h1>
 
-          return (
-            <div
-              key={user.id}
-              className="bg-white rounded-3xl p-4 lg:p-8"
-            >
-              <h1 className="block mb-5 font-bold text-xl">{user.name}</h1>
+            {groupedDishes[user.id!].jc.map((dish, index) => (
+              <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
+            ))}
 
-              {jc.map((dish) => (
-                <div key={dish.id}>
-                  <h2 className="my-3 text-orange-400">Jeszcze ciepłe</h2>
-                  <div className="text-sm flex">
-                    <div className="flex-1 flex items-baseline">
-                      <div className="">{dish.name}</div>
-
-                      <div className="flex-1 w-22 h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dot.svg')]" />
-
-                      <div className="">{dish.price}</div>
-                    </div>
-
-                    <Link href={`/dashboard/dishes/${dish.id}`} className="pl-3">
-                      <Image src="/edit.svg" alt="edycja" width={20} height={20} />
-                    </Link>
-                  </div>
-                </div>
-              ))}
-            </div>
-          );
-        })}
+            {groupedDishes[user.id!].nz.map((dish, index) => (
+              <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
+            ))}
+          </div>
+        ))}
       </div>
 
-      <form action={`/dashboard/dishes/new`} method="GET" className="flex justify-end mt-10">
-        <button className="button">Dodaj</button>
-      </form>
+      {(unassigned.jc.length > 0 || unassigned.nz.length > 0) && (
+        <div className="bg-white rounded-3xl p-4 lg:p-8">
+          <h1 className="block mb-5 font-bold text-xl text-gray-500">Nie przypisane</h1>
+
+          {unassigned.jc.map((dish, index) => (
+            <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
+          ))}
+          {unassigned.nz.map((dish, index) => (
+            <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
+          ))}
+        </div>
+      )}
+
+      <div className="flex justify-end mt-10">
+        <Link href="/dashboard/dishes/new" className="button">
+          Dodaj
+        </Link>
+      </div>
     </section>
   );
+}
+
+function groupDishes(users: User[], dishes: Dish[]) {
+  const groupedDishes: Record<string, { jc: Dish[]; nz: Dish[] }> = {};
+  const unassigned: { jc: Dish[]; nz: Dish[] } = { jc: [], nz: [] };
+
+  for (const user of users) {
+    groupedDishes[user.id!] = { jc: [], nz: [] };
+  }
+
+  for (const dish of dishes) {
+    const assigned = !!dish.userIds?.length;
+
+    if (!assigned) {
+      if (dish.category === "jc") {
+        unassigned.jc.push(dish);
+      } else if (dish.category === "nz") {
+        unassigned.nz.push(dish);
+      }
+      continue;
+    }
+
+    dish.userIds?.forEach((userId) => {
+      if (groupedDishes[userId]) {
+        if (dish.category === "jc") {
+          groupedDishes[userId].jc.push(dish);
+        } else if (dish.category === "nz") {
+          groupedDishes[userId].nz.push(dish);
+        }
+      }
+    });
+  }
+  return { groupedDishes, unassigned };
 }
 
 export default Dishes;
