@@ -1,18 +1,9 @@
 import { collection, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
-import { authOptions } from "@/auth/auth-config";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import DashboardItem from "@/components/DashboardItem";
 import LogoutButton from "@/components/LogoutButton";
 
 export default async function Dashboard() {
-  const session = await getServerSession(authOptions);
-
-  if (!session) {
-    redirect("/login");
-  }
-
   const usersSnap = await getCountFromServer(collection(db, "users"));
   const ingredientsSnap = await getCountFromServer(collection(db, "ingredients"));
   const dishesSnap = await getCountFromServer(collection(db, "dishes"));

@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth/auth-config";
 import { NextRequest, NextResponse } from "next/server";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export async function POST(req: NextRequest) {
@@ -27,4 +27,21 @@ export async function POST(req: NextRequest) {
   }
 
   return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+}
+
+export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
+  }
+
+  const userRef = doc(db, "users", params.id);
+  const user = await getDoc(userRef);
+
+  if (!user.exists()) {
+    return NextResponse.json({ error: "Nie znaleziono użytkownika" }, { status: 404 });
+  }
+
+  return NextResponse.json(user.data());
 }

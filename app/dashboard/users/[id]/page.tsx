@@ -17,7 +17,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
         updatedAt: data.updatedAt.toDate(),
       };
     } else {
-      throw new Error("Nie znaleziono pojazdu o takim id.");
+      throw new Error("Nie znaleziono pojazdu o takim id");
     }
   }
 

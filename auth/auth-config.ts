@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { AuthOptions } from "next-auth";
+import type { AuthOptions, Session } from "next-auth";
 import { getUserByCredentials } from "./users";
 
 export const authOptions: AuthOptions = {
@@ -15,8 +15,7 @@ export const authOptions: AuthOptions = {
           return null;
         }
         const user = await getUserByCredentials(credentials.email, credentials.password);
-
-        return !user ? null : user;
+        return user ?? null;
       },
     }),
   ],
@@ -26,6 +25,12 @@ export const authOptions: AuthOptions = {
   },
   jwt: {
     maxAge: 60 * 60 * 24 * 365,
+  },
+  callbacks: {
+    async session({ session, token }) {
+      session.user.id = token.id as string;
+      return session;
+    },
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

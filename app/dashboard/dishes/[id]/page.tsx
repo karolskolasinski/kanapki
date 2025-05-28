@@ -19,7 +19,7 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
         createdAt: data.createdAt.toDate(),
       };
     } else {
-      throw new Error("Nie znaleziono pozycji menu o takim id.");
+      throw new Error("Nie znaleziono pozycji menu o takim id");
     }
   }
 

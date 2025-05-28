@@ -1,5 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
+import LocationItem from "@/components/LocationItem";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/auth/auth-config";
 
 type DashboardItemProps = {
   item: keyof typeof items;
@@ -53,18 +56,37 @@ const items = {
 export const itemClassName =
   "bg-white p-4 text-lg rounded-3xl flex gap-3 items-center border border-transparent hover:border duration-300 ease-in-out font-semibold flex-1 cursor-pointer ";
 
-export default function DashboardItem({ item, count }: DashboardItemProps) {
-  const { label, icon, bg, bgHover, getCounterLabel } = items[item];
+export default async function DashboardItem({ item, count }: DashboardItemProps) {
+  const config = items[item];
+
+  if (item === "location") {
+    const session = await getServerSession(authOptions);
+
+    return (
+      <LocationItem
+        icon={config.icon}
+        label={config.label}
+        bg={config.bg}
+        bgHover={config.bgHover}
+        className={itemClassName}
+        userId={session?.user.id}
+      />
+    );
+  }
 
   return (
-    <Link href={`/dashboard/${item}`} className={itemClassName + bgHover}>
-      <div className={`p-5 rounded-full ${bg}`}>
-        <Image src={icon} alt={item} width={24} height={24} />
+    <Link href={`/dashboard/${item}`} className={itemClassName + config.bgHover}>
+      <div className={`p-5 rounded-full ${config.bg}`}>
+        <Image src={config.icon} alt={item} width={24} height={24} />
       </div>
 
       <div>
-        {count > 0 && <small className="text-gray-400">{count} {getCounterLabel(count)}</small>}
-        <div>{label}</div>
+        {count > 0 && (
+          <small className="text-gray-400">
+            {count} {config.getCounterLabel(count)}
+          </small>
+        )}
+        <div>{config.label}</div>
       </div>
     </Link>
   );
