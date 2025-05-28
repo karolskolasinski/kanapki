@@ -36,7 +36,7 @@ async function Users() {
         {users.map((user) => (
           <div
             key={user.id}
-            className="bg-white p-5 rounded-3xl flex flex-col gap-2 border border-transparent hover:border"
+            className="bg-white p-5 rounded-3xl flex flex-col gap-3 border border-transparent hover:border"
           >
             <div className="flex gap-3 items-center">
               <h2 className="text-base font-bold text-black">{user.name}</h2>
@@ -46,28 +46,28 @@ async function Users() {
             </div>
 
             {user.location
-              ? user.location
+              ? <span className="text-green-600">{user.location}</span>
               : <span className="text-red-500">Brak ustawionej lokalizacji</span>}
 
-            <small>
+            <div>
               <strong>Aktualizacja:</strong> {user.updatedAt?.toLocaleString()}
-            </small>
+            </div>
 
-            <small>
+            <div>
               <strong>Email:</strong> {user.email}
-            </small>
+            </div>
 
-            <small>
+            <div>
               <strong>Imię i nazwisko:</strong> {user.fullName}
-            </small>
+            </div>
 
-            <small>
+            <div>
               <strong>Model:</strong> {user.model}
-            </small>
+            </div>
 
-            <small>
+            <div>
               <strong>Rejestracja:</strong> {user.registration}
-            </small>
+            </div>
 
             <div className="flex gap-3 justify-end mt-10">
               {user.role !== "admin" && (
