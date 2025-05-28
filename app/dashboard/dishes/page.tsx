@@ -26,7 +26,7 @@ export type Dish = {
 
 async function Dishes() {
   const dishesRef = collection(db, "dishes");
-  const dishesQ = query(dishesRef, orderBy("createdAt", "desc"));
+  const dishesQ = query(dishesRef, orderBy("category", "asc"));
   const dishesSnap = await getDocs(dishesQ);
   const dishes: Dish[] = dishesSnap.docs.map((doc) => ({
     id: doc.id,
@@ -43,8 +43,6 @@ async function Dishes() {
   }));
   const gridCols = users.length > 1 ? "lg:grid-cols-2" : "lg:grid-cols-1";
 
-  const { groupedDishes, unassigned } = groupDishes(users, dishes);
-
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
       <div className="text-gray-500 uppercase font-semibold mx-5 my-3">
@@ -56,29 +54,14 @@ async function Dishes() {
           <div key={user.id} className="bg-white rounded-3xl p-4 lg:p-8">
             <h1 className="block mb-5 font-bold text-xl">{user.name}</h1>
 
-            {groupedDishes[user.id!].jc.map((dish, index) => (
-              <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
-            ))}
-
-            {groupedDishes[user.id!].nz.map((dish, index) => (
-              <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
-            ))}
+            {dishes.map((dish, index) => {
+              const checked = dish.userIds?.includes(user.id!);
+              const showLabel = index === 0 || dishes[index - 1].category !== dish.category;
+              return <MenuItem dish={dish} key={dish.id} checked={checked} showLabel={showLabel} />;
+            })}
           </div>
         ))}
       </div>
-
-      {(unassigned.jc.length > 0 || unassigned.nz.length > 0) && (
-        <div className="bg-white rounded-3xl p-4 lg:p-8">
-          <h1 className="block mb-5 font-bold text-xl text-gray-500">Nie przypisane</h1>
-
-          {unassigned.jc.map((dish, index) => (
-            <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
-          ))}
-          {unassigned.nz.map((dish, index) => (
-            <MenuItem dish={dish} key={dish.id} showLabel={index === 0} />
-          ))}
-        </div>
-      )}
 
       <div className="flex justify-end mt-10">
         <Link href="/dashboard/dishes/new" className="button">
@@ -87,39 +70,6 @@ async function Dishes() {
       </div>
     </section>
   );
-}
-
-function groupDishes(users: User[], dishes: Dish[]) {
-  const groupedDishes: Record<string, { jc: Dish[]; nz: Dish[] }> = {};
-  const unassigned: { jc: Dish[]; nz: Dish[] } = { jc: [], nz: [] };
-
-  for (const user of users) {
-    groupedDishes[user.id!] = { jc: [], nz: [] };
-  }
-
-  for (const dish of dishes) {
-    const assigned = !!dish.userIds?.length;
-
-    if (!assigned) {
-      if (dish.category === "jc") {
-        unassigned.jc.push(dish);
-      } else if (dish.category === "nz") {
-        unassigned.nz.push(dish);
-      }
-      continue;
-    }
-
-    dish.userIds?.forEach((userId) => {
-      if (groupedDishes[userId]) {
-        if (dish.category === "jc") {
-          groupedDishes[userId].jc.push(dish);
-        } else if (dish.category === "nz") {
-          groupedDishes[userId].nz.push(dish);
-        }
-      }
-    });
-  }
-  return { groupedDishes, unassigned };
 }
 
 export default Dishes;
