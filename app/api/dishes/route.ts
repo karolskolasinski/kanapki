@@ -1,6 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/firebase";
-import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore";
+import {
+  addDoc,
+  arrayRemove,
+  arrayUnion,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
 
@@ -30,6 +38,13 @@ export async function POST(req: NextRequest) {
     ...body.sugarFree ? { sugarFree: body?.sugarFree } : {},
     ...body.ingredients ? { ingredients: body?.ingredients } : {},
   };
+
+  if (body.userId) {
+    data.userIds = body.checked ? arrayUnion(body.userId) : arrayRemove(body.userId);
+    delete data.category;
+    delete data.name;
+    delete data.price;
+  }
 
   try {
     if (id) {

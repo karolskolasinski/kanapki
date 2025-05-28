@@ -57,7 +57,16 @@ async function Dishes() {
             {dishes.map((dish, index) => {
               const checked = dish.userIds?.includes(user.id!);
               const showLabel = index === 0 || dishes[index - 1].category !== dish.category;
-              return <MenuItem dish={dish} key={dish.id} checked={checked} showLabel={showLabel} />;
+
+              return (
+                <MenuItem
+                  dish={dish}
+                  key={dish.id}
+                  checked={checked}
+                  showLabel={showLabel}
+                  userId={user.id!}
+                />
+              );
             })}
           </div>
         ))}
