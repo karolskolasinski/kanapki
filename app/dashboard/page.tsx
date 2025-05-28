@@ -15,11 +15,11 @@ export default async function Dashboard() {
 
   const usersSnap = await getCountFromServer(collection(db, "users"));
   const ingredientsSnap = await getCountFromServer(collection(db, "ingredients"));
-  const menuSnap = await getCountFromServer(collection(db, "menu"));
+  const dishesSnap = await getCountFromServer(collection(db, "dishes"));
 
   const usersCount = usersSnap.data().count;
   const ingredientsCount = ingredientsSnap.data().count;
-  const menuCount = menuSnap.data().count;
+  const menuCount = dishesSnap.data().count;
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
