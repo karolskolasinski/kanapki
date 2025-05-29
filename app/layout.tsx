@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import localFont from "next/font/local";
 import { Open_Sans, Work_Sans } from "next/font/google";
+import { LocationProvider } from "@/lib/location-context";
 
 const calSans = localFont({
   src: "../public/fonts/CalSans-Regular.woff2",
@@ -29,9 +30,11 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pl" className={`${calSans.variable} ${workSans.variable} ${openSans.className}`}>
       <body className="antialiased bg-gray-100 min-h-[100vh] flex flex-col">
-        <Header />
-        {children}
-        <Footer />
+        <LocationProvider>
+          <Header />
+          {children}
+          <Footer />
+        </LocationProvider>
       </body>
     </html>
   );

@@ -78,6 +78,7 @@ export default function LocationItem(props: Props) {
   }, [coords, userId]);
 
   const handleClick = () => {
+    setLocation("Ładowanie...");
     if (!navigator.geolocation) {
       setLocation("Lokalizacja niedostępna");
       return;
