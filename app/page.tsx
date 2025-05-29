@@ -33,11 +33,7 @@ export default async function Home() {
 
   return (
     <>
-      <section className="overflow-auto max-w-7xl mx-auto py-4 px-2">
-        <div className="flex justify-between">
-          <SelectedAddress users={users} />
-        </div>
-      </section>
+      <SelectedAddress users={users} />
 
       {/*<Menu />*/}
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "@/lib/location-context";
 import { User } from "@/app/dashboard/users/page";
+import Image from "next/image";
 
 type SelectedAddressProps = {
   users: User[];
@@ -39,22 +40,31 @@ export default function SelectedAddress(props: SelectedAddressProps) {
   };
 
   return (
-    <div>
-      Gdzie jestem?
+    <div className="flex flex-col gap-3 px-2 py-5 md:flex-row md:gap-5 md:justify-center">
+      <div className="w-full md:w-auto uppercase bg-black px-3 py-2 text-white font-work-sans text-lg lg:text-2xl font-black flex gap-1 justify-center items-center">
+        <Image
+          src="/pin-drop.svg"
+          alt="edycja"
+          width={30}
+          height={30}
+          className="inline"
+        />
+        {location?.label ?? "brak wybranej lokalizacji"}
+      </div>
 
-      <select
-        onChange={handleSelect}
-        value={selectedUserId}
-        className="block appearance-none border border-black rounded px-4 py-2 pr-10 bg-white bg-no-repeat bg-[length:1rem] bg-[right_0.75rem_center] bg-[url('/down-arrow.svg')]"
-      >
-        {users.map((user) => (
-          <option key={user.id} value={user.id}>
-            {user.name}
-          </option>
-        ))}
-      </select>
-
-      {location?.label ?? "brak wybranej lokalizacji"}
+      {users.length > 0 && (
+        <select
+          onChange={handleSelect}
+          value={selectedUserId}
+          className="appearance-none border-4 border-black rounded-2xl px-4 py-2 pr-10 bg-white bg-no-repeat bg-[length:1rem] bg-[right_0.75rem_center] bg-[url('/down-arrow.svg')]"
+        >
+          {users.map((user) => (
+            <option key={user.id} value={user.id}>
+              {user.name}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 }
