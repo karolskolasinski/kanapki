@@ -9,6 +9,8 @@ export type User = {
   model?: string;
   registration?: string;
   location?: string;
+  lat?: number;
+  lng?: number;
   password?: string;
   role?: string;
   updatedAt?: Date | null;

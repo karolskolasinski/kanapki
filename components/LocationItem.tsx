@@ -40,6 +40,37 @@ export default function LocationItem(props: Props) {
     fetchLocation();
   }, [userId]);
 
+  const buildAddress = (address: Record<string, string>): string => {
+    const street = [address.road, address.house_number].filter(Boolean).join(" ");
+    const city = address.city || address.town || address.village || address.hamlet;
+    return [street, city].filter(Boolean).join(", ");
+  };
+
+  useEffect(() => {
+    if (!coords) return;
+
+    const fetchAddress = async () => {
+      try {
+        const { lat, lng } = coords;
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+        const response = await fetch(url);
+        const data = await response.json();
+        const location = buildAddress(data.address);
+
+        if (location) {
+          setLocation(location);
+        } else {
+          setLocation("Nie udało się odczytać adresu");
+        }
+      } catch (err) {
+        console.error(err);
+        setLocation("Błąd przy pobieraniu adresu");
+      }
+    };
+
+    fetchAddress();
+  }, [coords]);
+
   const handleClick = () => {
     if (!navigator.geolocation) {
       setLocation("Lokalizacja niedostępna");

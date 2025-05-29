@@ -20,8 +20,8 @@ export async function POST(req: NextRequest) {
     try {
       await deleteDoc(userRef);
       return NextResponse.redirect(new URL("/dashboard/users", req.url));
-    } catch (e) {
-      console.error(e);
+    } catch (err) {
+      console.error(err);
       return NextResponse.json({ error: "Błąd usuwania" }, { status: 500 });
     }
   }

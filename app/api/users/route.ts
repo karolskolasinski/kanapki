@@ -30,8 +30,10 @@ export async function POST(req: NextRequest) {
       fullName: body.fullName,
       model: body.model,
       registration: body.registration,
-      ...body?.location ? { location: body.location } : {},
-      ...body?.role ? { role: body.role } : {},
+      location: body.location ?? "",
+      lat: body.lat ?? 0,
+      lng: body.lng ?? 0,
+      role: body.role ?? "",
     };
 
     if (id) {
@@ -58,8 +60,8 @@ export async function POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Błąd zapisu" }, { status: 500 });
   }
 }

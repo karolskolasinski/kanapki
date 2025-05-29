@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
     await updateDoc(userRef, { name });
 
     return NextResponse.json({ success: true });
-  } catch (e) {
-    console.error(e);
+  } catch (err) {
+    console.error(err);
     return NextResponse.json({ error: "Błąd zapisu" }, { status: 500 });
   }
 }
