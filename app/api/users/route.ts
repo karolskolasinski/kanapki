@@ -25,15 +25,15 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const id = body?.id;
     const data = {
-      name: body.name,
-      email: body.email,
-      fullName: body.fullName,
-      model: body.model,
-      registration: body.registration,
-      location: body.location ?? "",
-      lat: body.lat ?? 0,
-      lng: body.lng ?? 0,
-      role: body.role ?? "",
+      ...body.name ? { name: body.name } : {},
+      ...body.email ? { email: body.email } : {},
+      ...body.fullName ? { fullName: body.fullName } : {},
+      ...body.model ? { model: body.model } : {},
+      ...body.registration ? { registration: body.registration } : {},
+      ...body.location ? { location: body.location } : {},
+      ...body.lat ? { lat: body.lat } : {},
+      ...body.lng ? { lng: body.lng } : {},
+      ...body.role ? { role: body.role } : {},
     };
 
     if (id) {

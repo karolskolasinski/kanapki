@@ -40,14 +40,14 @@ export default function LocationItem(props: Props) {
     fetchLocation();
   }, [userId]);
 
-  const buildAddress = (address: Record<string, string>): string => {
-    const street = [address.road, address.house_number].filter(Boolean).join(" ");
-    const city = address.city || address.town || address.village || address.hamlet;
+  const buildLocation = (address: Record<string, string>): string => {
+    const street = [address?.road, address?.house_number].filter(Boolean).join(" ");
+    const city = address?.city || address?.town || address?.village || address?.hamlet;
     return [street, city].filter(Boolean).join(", ");
   };
 
   useEffect(() => {
-    if (!coords) return;
+    if (!coords || !userId) return;
 
     const fetchAddress = async () => {
       try {
@@ -55,10 +55,16 @@ export default function LocationItem(props: Props) {
         const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
         const response = await fetch(url);
         const data = await response.json();
-        const location = buildAddress(data.address);
+        const location = buildLocation(data.address);
 
         if (location) {
           setLocation(location);
+
+          await fetch("/api/users", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: userId, location, lat, lng }),
+          });
         } else {
           setLocation("Nie udało się odczytać adresu");
         }
@@ -69,7 +75,7 @@ export default function LocationItem(props: Props) {
     };
 
     fetchAddress();
-  }, [coords]);
+  }, [coords, userId]);
 
   const handleClick = () => {
     if (!navigator.geolocation) {

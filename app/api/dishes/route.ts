@@ -22,15 +22,15 @@ export async function POST(req: NextRequest) {
   const body = await req.json();
   const id = body?.id;
   const data = {
-    name: body.name,
-    category: body.category,
-    price: body.price,
+    ...body.name ? { name: body?.name } : {},
+    ...body.category ? { category: body?.category } : {},
+    ...body.price ? { price: body?.price } : {},
     ...body.weight ? { weight: body?.weight } : {},
     ...body.kcal ? { kcal: body?.kcal } : {},
     ...body.protein ? { protein: body?.protein } : {},
     ...body.fat ? { fat: body?.fat } : {},
     ...body.carbs ? { carbs: body?.carbs } : {},
-    userIds: body.userIds?.length ? body.userIds : [],
+    ...body.userIds ? { userIds: body?.userIds } : {},
     ...body.vegetarian ? { vegetarian: body?.vegetarian } : {},
     ...body.vegan ? { vegan: body?.vegan } : {},
     ...body.glutenFree ? { glutenFree: body?.glutenFree } : {},
@@ -41,9 +41,6 @@ export async function POST(req: NextRequest) {
 
   if (body.userId) {
     data.userIds = body.checked ? arrayUnion(body.userId) : arrayRemove(body.userId);
-    delete data.category;
-    delete data.name;
-    delete data.price;
   }
 
   try {

@@ -29,14 +29,15 @@ export async function POST(req: NextRequest) {
   return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
 }
 
-export async function GET(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session) {
     return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
   }
 
-  const userRef = doc(db, "users", params.id);
+  const userRef = doc(db, "users", id);
   const user = await getDoc(userRef);
 
   if (!user.exists()) {
