@@ -12,17 +12,17 @@ type SelectedAddressProps = {
 export default function SelectedAddress(props: SelectedAddressProps) {
   const { users } = props;
   const { location, setLocation } = useLocation();
-  const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
 
   useEffect(() => {
     if (location?.userId) {
-      setSelectedUserId(location.userId);
+      setUserId(location.userId);
     }
   }, [location]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = e.target.value;
-    setSelectedUserId(userId);
+    setUserId(userId);
 
     let user = users.find((user) => user.id === userId);
     if (!user) {
@@ -44,7 +44,7 @@ export default function SelectedAddress(props: SelectedAddressProps) {
       <div className="w-full md:w-auto uppercase bg-black px-3 py-2 text-white font-work-sans text-lg lg:text-2xl font-black flex gap-1 justify-center items-center">
         <Image
           src="/pin-drop.svg"
-          alt="edycja"
+          alt="lokalizacja"
           width={30}
           height={30}
           className="inline"
@@ -55,7 +55,7 @@ export default function SelectedAddress(props: SelectedAddressProps) {
       {users.length > 0 && (
         <select
           onChange={handleSelect}
-          value={selectedUserId}
+          value={userId}
           className="appearance-none border-4 border-black rounded-2xl px-4 py-2 pr-10 bg-white bg-no-repeat bg-[length:1rem] bg-[right_0.75rem_center] bg-[url('/down-arrow.svg')]"
         >
           {users.map((user) => (

@@ -11,8 +11,8 @@ export default function Header() {
               alt="logo"
               width={0}
               height={0}
-              className="w-12"
               priority
+              className="h-10 w-auto"
             />
 
             <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
@@ -21,6 +21,26 @@ export default function Header() {
                 ciepłe<span className="text-[1rem]">🔥</span>
               </div>
             </div>
+          </a>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <a href="./" className="flex gap-2 items-center font-bold py-1">
+            <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
+              <div className="tracking-[1.5px] text-right">
+                <span className="text-[1rem]">🥶</span>Nieźle
+              </div>
+              <div className="flex items-center tracking-[.5px]">zmrożone</div>
+            </div>
+
+            <Image
+              src="/nz-logo.svg"
+              alt="logo"
+              width={0}
+              height={0}
+              className="h-10 w-auto"
+              priority
+            />
           </a>
         </div>
       </div>
