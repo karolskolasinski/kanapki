@@ -19,7 +19,6 @@ export default async function Home() {
   return (
     <>
       <SelectedAddress users={users} />
-
       <Menu />
     </>
   );

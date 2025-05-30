@@ -3,6 +3,7 @@
 import { useLocation } from "@/lib/location-context";
 import { useEffect, useState } from "react";
 import { Dish } from "@/app/dashboard/dishes/page";
+import MenuItem from "@/components/MenuItem";
 
 function Menu() {
   const { location, setLocation } = useLocation();
@@ -20,31 +21,27 @@ function Menu() {
 
   return (
     <section className="flex-1 w-full flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 px-2">
-      <div className="snap-center md:w-[50%]">
-        <div className="card bg-orange-400">
-          <div className="card-title">
-            <h3 className="uppercase font-work-sans text-2xl font-black text-center">
-              Jeszcze ciepłe
-            </h3>
+      {["jc", "nz"].map((category) => {
+        const bgClass = category === "jc" ? "bg-orange-400" : "bg-cyan-400";
+
+        return (
+          <div key={category} className="snap-center md:w-[50%]">
+            <div className={`card ${bgClass}`}>
+              <div className="card-title">
+                <h3 className="uppercase font-work-sans text-2xl font-black text-center">
+                  {category === "jc" ? "Jeszcze ciepłe" : "Nieźle zmrożone"}
+                </h3>
+              </div>
+
+              {dishes.filter((d) => d.category === category).map((dish) => (
+                <div key={dish.id} className="w-full font-bold text-xl xs:text-2xl">
+                  <MenuItem dish={dish} />
+                </div>
+              ))}
+            </div>
           </div>
-
-          {dishes.filter((d) => d.category === "jc").map((dish) => (
-            <div key={dish.id}>{dish.name}</div>
-          ))}
-        </div>
-      </div>
-
-      <div className="snap-center md:w-[50%]">
-        <div className="card bg-cyan-400">
-          <div className="card-title">
-            <h3 className="uppercase font-work-sans text-2xl font-black text-center">
-              Nieźle zmrożone
-            </h3>
-          </div>
-
-          Menu 1
-        </div>
-      </div>
+        );
+      })}
     </section>
   );
 }

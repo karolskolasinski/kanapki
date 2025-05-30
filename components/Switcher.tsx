@@ -10,7 +10,7 @@ type SwitcherProps = {
   userId: string;
 };
 
-function Switcher(props: SwitcherProps) {
+export default function Switcher(props: SwitcherProps) {
   const { checked = false, dishId, userId } = props;
   const [isChecked, setIsChecked] = useState(checked);
   const [error, setError] = useState<string | null>(null);
@@ -49,5 +49,3 @@ function Switcher(props: SwitcherProps) {
     </>
   );
 }
-
-export default Switcher;

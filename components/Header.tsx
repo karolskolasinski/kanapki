@@ -12,10 +12,10 @@ export default function Header() {
               width={0}
               height={0}
               priority
-              className="h-10 w-auto"
+              className="h-8 xs:h-10 w-auto"
             />
 
-            <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
+            <div className="flex flex-col uppercase leading-none xs:text-xl tracking-wider font-cal-sans">
               <div>Jeszcze</div>
               <div className="flex items-center">
                 ciepłe<span className="text-[1rem]">🔥</span>
@@ -26,7 +26,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2">
           <a href="./" className="flex gap-2 items-center font-bold py-1">
-            <div className="flex flex-col uppercase leading-none text-xl tracking-wider font-cal-sans">
+            <div className="flex flex-col uppercase leading-none xs:text-xl tracking-wider font-cal-sans">
               <div className="tracking-[1.5px] text-right">
                 <span className="text-[1rem]">🥶</span>Nieźle
               </div>
@@ -38,7 +38,7 @@ export default function Header() {
               alt="logo"
               width={0}
               height={0}
-              className="h-10 w-auto"
+              className="h-8 xs:h-10 w-auto"
               priority
             />
           </a>
