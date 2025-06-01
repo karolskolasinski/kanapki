@@ -31,63 +31,71 @@ export default function MenuItem(props: MenuItemProps) {
   const { dish, checked, showLabel, userId } = props;
   const label = dish.category === "jc" ? "Jeszcze ciepłe" : "Nieźle zmrożone";
   const { ingredients } = useIngredients();
-  const fontWeightClass = userId ? "font-normal" : "font-semibold";
+  let bgClass = dish.category === "jc" ? "bg-orange-400" : "bg-cyan-400";
+  bgClass = userId ? "bg-white" : bgClass;
+  let liClass = "text-xl xs:text-2xl";
+  liClass = userId ? "" : liClass;
+  const fontClass = userId ? "" : "font-bold";
 
   return (
-    <div className="pb-5">
-      {showLabel && <h2 className="my-3 font-semibold">{label}</h2>}
+    <>
+      <li
+        className={`clear-both after:float-left after:w-0 after:whitespace-nowrap flow-root ${liClass}`}
+      >
+        <span className={bgClass}>
+          {showLabel && <h2 className="my-3 font-semibold">{label}</h2>}
 
-      <div className="flex items-baseline">
-        {userId && <Switcher checked={checked} dishId={dish.id!} userId={userId} />}
+          {userId && (
+            <div className="inline align-text-top">
+              <Switcher checked={checked} dishId={dish.id!} userId={userId} />
+            </div>
+          )}
 
-        <div>
           {!userId && (dish.vegetarian || dish.vegan) && (
             <Image
               src="/vege.svg"
               alt="Wege lub vegan"
               width={24}
               height={24}
-              className="inline"
+              className="inline align-text-top"
             />
           )}
 
-          <span className="text-base align-middle">{dish.name}</span>
+          <span className={`${fontClass} pr-1`}>{dish.name}</span>
+          {dish.weight && <small className={`text-xs pr-1 ${fontClass}`}>{dish.weight}g</small>}
 
-          {dish.weight && <small className="text-xs pl-1 align-text-bottom">{dish.weight}g</small>}
-        </div>
+          {userId && (
+            <Link href={`/dashboard/dishes/${dish.id}`} className="pl-1 align-text-top">
+              <Image
+                src="/edit.svg"
+                alt="edycja"
+                width={20}
+                height={20}
+                className="inline"
+              />
+            </Link>
+          )}
+        </span>
 
-        <div className="self-end grow flex px-1">
-          <div className="min-w-4 grow self-baseline h-[2px] bg-repeat-x bg-center bg-[length:8px_2px] bg-[url('/dot.svg')]" />
-          <span className="self-baseline">{dish.price}</span>
-        </div>
-
-        {userId && (
-          <Link href={`/dashboard/dishes/${dish.id}`} className="pl-3">
-            <Image
-              src="/edit.svg"
-              alt="edycja"
-              width={20}
-              height={20}
-              className="inline"
-            />
-          </Link>
-        )}
-      </div>
+        <span className={`${bgClass} float-right relative z-10 pl-1 ${fontClass}`}>
+          {dish.price}
+        </span>
+      </li>
 
       {!userId && (
-        <div className={`${fontWeightClass} text-[.7rem] xs:text-xs pt-3 pb-2`}>
+        <div className="text-[.7rem] xs:text-xs pt-2">
           {formatDishLabels(dish)}
         </div>
       )}
 
       {!userId && (
-        <div className={`${fontWeightClass} text-[.7rem] xs:text-xs`}>
-          <span className="font-bold">skład:</span> {ingredients
+        <div className="text-[.7rem] xs:text-xs pb-5">
+          <span className="font-semibold">skład:</span> {ingredients
             .filter((i) => dish.ingredients?.includes(i.id!))
             .map((i) => i.name)
             .join(", ")}
         </div>
       )}
-    </div>
+    </>
   );
 }

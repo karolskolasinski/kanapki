@@ -54,20 +54,22 @@ async function Dishes() {
           <div key={user.id} className="bg-white rounded-3xl p-4 lg:p-8">
             <h1 className="block mb-5 font-bold text-xl">{user.name}</h1>
 
-            {dishes.map((dish, index) => {
-              const checked = dish.userIds?.includes(user.id!);
-              const showLabel = index === 0 || dishes[index - 1].category !== dish.category;
+            <ul className="leaders">
+              {dishes.map((dish, index) => {
+                const checked = dish.userIds?.includes(user.id!);
+                const showLabel = index === 0 || dishes[index - 1].category !== dish.category;
 
-              return (
-                <MenuItem
-                  dish={dish}
-                  key={dish.id}
-                  checked={checked}
-                  showLabel={showLabel}
-                  userId={user.id!}
-                />
-              );
-            })}
+                return (
+                  <MenuItem
+                    dish={dish}
+                    key={dish.id}
+                    checked={checked}
+                    showLabel={showLabel}
+                    userId={user.id!}
+                  />
+                );
+              })}
+            </ul>
           </div>
         ))}
       </div>

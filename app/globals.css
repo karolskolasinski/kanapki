@@ -13,7 +13,7 @@
 }
 
 .card {
-    @apply w-[85vw] xs:w-[90vw] md:w-auto px-6 pb-6 pt-20 flex flex-col justify-center items-center border-[5px] border-black rounded-[30px] relative z-0 h-fit shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
+    @apply w-[85vw] xs:w-[90vw] md:w-auto px-6 pb-6 pt-20 border-[5px] border-black rounded-[30px] relative z-0 h-fit shadow-[4px_4px_0px_0px_rgba(0,0,0,1)];
 }
 
 .card-title {
@@ -22,4 +22,12 @@
 
 .button {
     @apply px-4 inline-flex gap-2 h-10 items-center justify-center rounded-md text-sm bg-purple-200 focus:bg-purple-300 border hover:border-purple-500 border-purple-400 font-bold shadow-[0px_2px_4px_0px_rgba(10,13,18,0.1)] shadow-[0px_-3px_0px_0px_rgba(10,13,18,0.1)_inset] shadow-[0px_0px_0px_2px_rgba(10,13,18,0.25)_inset] duration-150 [transition-timing-function:cubic-bezier(0.175,0.885,0.32,1.275)] active:translate-y-[1px] cursor-pointer;
+}
+
+.leaders {
+    @apply overflow-hidden;
+}
+
+.leaders li:after {
+    content: ". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . "
 }

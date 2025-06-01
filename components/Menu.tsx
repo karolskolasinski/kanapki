@@ -33,11 +33,11 @@ function Menu() {
                 </h3>
               </div>
 
-              {dishes.filter((d) => d.category === category).map((dish) => (
-                <div key={dish.id} className="w-full font-bold text-xl xs:text-2xl">
-                  <MenuItem dish={dish} />
-                </div>
-              ))}
+              <ul className="leaders">
+                {dishes.filter((d) => d.category === category).map((dish) => (
+                  <MenuItem key={dish.id} dish={dish} />
+                ))}
+              </ul>
             </div>
           </div>
         );
