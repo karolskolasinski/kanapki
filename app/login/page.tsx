@@ -31,7 +31,7 @@ export default function LoginPage() {
         type="email"
         value={email}
         handleChange={(e) => setEmail(e.target.value)}
-        required={true} /*todo: required*/
+        // required={true} /*todo: required*/
       />
 
       <Input
@@ -39,7 +39,7 @@ export default function LoginPage() {
         type="password"
         value={password}
         handleChange={(e) => setPassword(e.target.value)}
-        required={true} /*todo: required*/
+        // required={true} /*todo: required*/
       />
 
       <button type="submit" className="button">
