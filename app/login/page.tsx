@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Input from "@/components/Input";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -25,24 +26,23 @@ export default function LoginPage() {
       onSubmit={handleSubmit}
       className="flex flex-col w-96 mx-auto mt-44 gap-4"
     >
-      {/*todo: <Input />*/}
-      <input
+      <Input
+        name="email"
         type="email"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Email"
-        required
-        className="h-10 border border-gray-300 rounded-md p-2"
+        handleChange={(e) => setEmail(e.target.value)}
+        required={true} /*todo: required*/
       />
-      <input
+
+      <Input
+        name="password"
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder="Hasło"
-        required
-        className="h-10 border border-gray-300 rounded-md p-2"
+        handleChange={(e) => setPassword(e.target.value)}
+        required={true} /*todo: required*/
       />
-      <button type="submit" className="bg-blue-500 text-white rounded-md p-2 hover:bg-blue-600">
+
+      <button type="submit" className="button">
         Zaloguj się
       </button>
     </form>

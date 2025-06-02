@@ -1,5 +1,5 @@
 import CredentialsProvider from "next-auth/providers/credentials";
-import type { AuthOptions, Session } from "next-auth";
+import type { AuthOptions } from "next-auth";
 import { getUserByCredentials } from "./users";
 
 export const authOptions: AuthOptions = {
@@ -27,6 +27,12 @@ export const authOptions: AuthOptions = {
     maxAge: 60 * 60 * 24 * 365,
   },
   callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
     async session({ session, token }) {
       session.user.id = token.id as string;
       return session;

@@ -28,6 +28,7 @@ export default function Input(props: InputProps) {
     glutenFree: "Bez glutenu",
     lactoseFree: "Bez laktozy",
     sugarFree: "Bez cukru",
+    password: "Hasło",
   };
 
   if (type === "switcher") {
@@ -105,7 +106,7 @@ export default function Input(props: InputProps) {
         name={name}
         value={typeof value === "string" ? value : ""}
         onChange={handleChange}
-        className="w-full h-10 p-2 border border-gray-300 rounded-xl"
+        className="w-full h-10 p-2 bg-white border border-gray-300 rounded-xl"
         // required={name !== "location"}
         min={type === "number" ? 0 : undefined}
       />
