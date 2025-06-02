@@ -1,7 +1,7 @@
 "use client";
 
 import { useLocation } from "@/lib/location-context";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dish } from "@/app/dashboard/dishes/page";
 import MenuItem from "@/components/MenuItem";
 
@@ -10,6 +10,10 @@ function Menu() {
   const [dishes, setDishes] = useState<Dish[]>([]);
 
   useEffect(() => {
+    if (!location?.userId) {
+      return;
+    }
+
     const fetchDishes = async () => {
       const res = await fetch(`/api/dishes/${location?.userId}`);
       const data = await res.json();
@@ -20,7 +24,7 @@ function Menu() {
   }, [location, setLocation]);
 
   return (
-    <section className="flex-1 w-full flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 px-2">
+    <section className="flex-1 w-full flex gap-5 overflow-auto snap-x max-w-7xl mx-auto py-14 pl-[8px] pr-[12px]">
       {["jc", "nz"].map((category) => {
         const bgClass = category === "jc" ? "bg-orange-400" : "bg-cyan-400";
 
@@ -34,6 +38,12 @@ function Menu() {
               </div>
 
               <ul className="leaders">
+                {!dishes.length && (
+                  <div className="uppercase font-semibold flex items-center justify-center text-sm">
+                    Ładowanie...
+                  </div>
+                )}
+
                 {dishes.filter((d) => d.category === category).map((dish) => (
                   <MenuItem key={dish.id} dish={dish} />
                 ))}

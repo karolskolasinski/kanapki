@@ -3,8 +3,8 @@ import React from "react";
 export default function Loader() {
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
-      <div className="text-gray-500 uppercase font-semibold mx-5 my-3">
-        <small>Ładowanie...</small>
+      <div className="text-gray-500 uppercase font-semibold mx-5 my-3 text-sm">
+        Ładowanie...
       </div>
 
       <div className="flex-1 flex justify-center items-center h-24">
