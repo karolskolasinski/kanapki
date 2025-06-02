@@ -3,6 +3,7 @@ import { db } from "@/lib/firebase";
 import { User } from "@/app/dashboard/users/page";
 import SelectedAddress from "@/components/SelectedAddress";
 import Menu from "@/components/Menu";
+import Footer from "@/components/Footer";
 
 export default async function Home() {
   const docRef = collection(db, "users");
@@ -20,6 +21,7 @@ export default async function Home() {
     <>
       <SelectedAddress users={users} />
       <Menu />
+      <Footer />
     </>
   );
 }

@@ -51,16 +51,6 @@ export default function MenuItem(props: MenuItemProps) {
             </div>
           )}
 
-          {!userId && (dish.vegetarian || dish.vegan) && (
-            <Image
-              src="/vege.svg"
-              alt="Wege lub vegan"
-              width={24}
-              height={24}
-              className="inline align-text-top"
-            />
-          )}
-
           <span className={`${fontClass} pr-1`}>{dish.name}</span>
           {dish.weight && <small className={`text-xs pr-1 ${fontClass}`}>{dish.weight}g</small>}
 

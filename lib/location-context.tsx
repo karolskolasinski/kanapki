@@ -11,23 +11,38 @@ interface Location {
 
 interface LocationContextType {
   location: Location | null;
-  setLocation: (loc: Location) => void;
+  setLocation: (userId?: string) => void;
 }
 
 const LocationContext = createContext<LocationContextType | undefined>(undefined);
 
 export const LocationProvider = ({ children }: { children: ReactNode }) => {
-  const [location, setLocation] = useState<Location | null>(null);
+  const [location, setLocationState] = useState<Location | null>(null);
+
+  const setLocation = async (userId?: string) => {
+    try {
+      const response = await fetch(`/api/users/${userId}`);
+      const result = await response.json();
+
+      if (!response.ok || !result.location?.length) {
+        setLocationState(null);
+        return;
+      }
+
+      setLocationState({ userId, label: result.location, lat: result.lat, lng: result.lng });
+    } catch (err) {
+      console.error(err);
+      setLocationState(null);
+    }
+  };
 
   useEffect(() => {
-    const stored = localStorage.getItem("selectedLocation");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setLocation(parsed);
-      } catch (err) {
-        console.error("Nieprawidłowy JSON w localStorage:", err);
-      }
+    const selectedUserId = localStorage.getItem("selectedUserId");
+    if (selectedUserId) {
+      const { userId } = JSON.parse(selectedUserId);
+      setLocation(userId);
+    } else {
+      setLocation("loading");
     }
   }, []);
 

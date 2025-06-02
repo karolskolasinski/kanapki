@@ -14,7 +14,7 @@ const customIcon = new L.Icon({
 function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
   const map = useMap();
   useEffect(() => {
-    map.setView([lat, lng], 13);
+    map.setView([lat, lng]);
   }, [lat, lng, map]);
   return null;
 }
@@ -29,19 +29,17 @@ export default function MapClient(props: MapClientProps) {
   const { lat, lng, label } = props;
 
   return (
-    <div className="grayscale-100 duration-300 hover:grayscale-0 h-[300px] w-full">
-      <MapContainer
-        center={[lat, lng]}
-        zoom={13}
-        scrollWheelZoom={false}
-        className="w-full h-full"
-      >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <Marker position={[lat, lng]} icon={customIcon}>
-          <Popup>{label || "Lokalizacja"}</Popup>
-        </Marker>
-        <MapUpdater lat={lat} lng={lng} />
-      </MapContainer>
-    </div>
+    <MapContainer
+      center={[lat, lng]}
+      zoom={16}
+      scrollWheelZoom={true}
+      className="w-full h-full"
+    >
+      <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <Marker position={[lat, lng]} icon={customIcon}>
+        <Popup>{label || "Lokalizacja"}</Popup>
+      </Marker>
+      <MapUpdater lat={lat} lng={lng} />
+    </MapContainer>
   );
 }

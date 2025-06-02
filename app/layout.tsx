@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import localFont from "next/font/local";
 import { Open_Sans, Work_Sans } from "next/font/google";
 import { LocationProvider } from "@/lib/location-context";
@@ -37,7 +36,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <IngredientsProvider>
             {children}
           </IngredientsProvider>
-          <Footer />
         </LocationProvider>
       </body>
     </html>

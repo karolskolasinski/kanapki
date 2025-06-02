@@ -48,7 +48,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="py-4 text-center text-sm border-t border-t-gray-400">
+        <div className="py-4 text-center text-xs border-t border-t-gray-400 text-gray-600">
           2025 - jeszczecieple.pl
         </div>
       </div>

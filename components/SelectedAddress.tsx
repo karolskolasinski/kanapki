@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useLocation } from "@/lib/location-context";
 import { User } from "@/app/dashboard/users/page";
 import Image from "next/image";
+import { useLocation } from "@/lib/location-context";
 
 type SelectedAddressProps = {
   users: User[];
@@ -12,31 +11,15 @@ type SelectedAddressProps = {
 export default function SelectedAddress(props: SelectedAddressProps) {
   const { users } = props;
   const { location, setLocation } = useLocation();
-  const [userId, setUserId] = useState<string>("");
-
-  useEffect(() => {
-    if (location?.userId) {
-      setUserId(location.userId);
-    }
-  }, [location]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = e.target.value;
-    setUserId(userId);
 
-    let user = users.find((user) => user.id === userId);
-    if (!user) {
-      user = users[0];
+    const user = users.find((user) => user.id === userId);
+    if (user) {
+      localStorage.setItem("selectedUserId", JSON.stringify({ userId: user.id }));
+      setLocation(user.id);
     }
-
-    const loc = {
-      userId: user.id,
-      label: user.location,
-      lat: user.lat,
-      lng: user.lng,
-    };
-    setLocation(loc);
-    localStorage.setItem("selectedLocation", JSON.stringify(loc));
   };
 
   return (
@@ -55,9 +38,10 @@ export default function SelectedAddress(props: SelectedAddressProps) {
       {users.length > 0 && (
         <select
           onChange={handleSelect}
-          value={userId}
+          value={location?.userId ?? "loading"}
           className="appearance-none border-4 border-black rounded-2xl px-4 py-2 pr-10 bg-white bg-no-repeat bg-[length:1rem] bg-[right_0.75rem_center] bg-[url('/down-arrow.svg')]"
         >
+          <option value="loading" disabled>Wybierz</option>
           {users.map((user) => (
             <option key={user.id} value={user.id}>
               {user.name}

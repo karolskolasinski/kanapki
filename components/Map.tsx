@@ -32,7 +32,9 @@ function Map() {
         <div className="flex flex-col">{location?.label}</div>
       </div>
 
-      {lat && lng && <MapClient lat={lat} lng={lng} label={location?.label} />}
+      <div className="grayscale-100 duration-300 hover:grayscale-0 h-[300px] w-full">
+        {lat && lng && <MapClient lat={lat} lng={lng} label={location?.label} />}
+      </div>
     </div>
   );
 }
