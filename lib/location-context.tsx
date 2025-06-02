@@ -21,7 +21,7 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
 
   const setLocation = async (userId?: string) => {
     try {
-      const response = await fetch(`/api/users/${userId}`);
+      const response = await fetch(`/api/users/${userId}/location-public`);
       const result = await response.json();
 
       if (!response.ok || !result.location?.length) {
