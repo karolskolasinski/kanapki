@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useLocation } from "@/lib/location-context";
 
 type Props = {
   icon: string;
@@ -14,8 +15,9 @@ type Props = {
 
 export default function LocationItem(props: Props) {
   const { icon, label, bg, bgHover, className, userId } = props;
-  const [location, setLocation] = useState<string>("Ładowanie...");
+  const [tempLocation, setTempLocation] = useState<string>("Ładowanie...");
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
+  const { location, setLocation } = useLocation();
 
   useEffect(() => {
     if (!userId) return;
@@ -26,14 +28,14 @@ export default function LocationItem(props: Props) {
         const result = await response.json();
 
         if (!response.ok || !result.location.length) {
-          setLocation("Kliknij, aby ustawić lokalizację");
+          setTempLocation("Kliknij, aby ustawić lokalizację");
           return;
         }
 
-        setLocation(result.location);
+        setTempLocation(result.location);
       } catch (err) {
         console.error(err);
-        setLocation("Błąd pobierania lokalizacji");
+        setTempLocation("Błąd pobierania lokalizacji");
       }
     };
 
@@ -58,7 +60,7 @@ export default function LocationItem(props: Props) {
         const location = buildLocation(data.address);
 
         if (location) {
-          setLocation(location);
+          setTempLocation(location);
 
           await fetch("/api/users", {
             method: "POST",
@@ -66,11 +68,11 @@ export default function LocationItem(props: Props) {
             body: JSON.stringify({ id: userId, location, lat, lng }),
           });
         } else {
-          setLocation("Nie udało się odczytać adresu");
+          setTempLocation("Nie udało się odczytać adresu");
         }
       } catch (err) {
         console.error(err);
-        setLocation("Błąd przy pobieraniu adresu");
+        setTempLocation("Błąd przy pobieraniu adresu");
       }
     };
 
@@ -78,16 +80,17 @@ export default function LocationItem(props: Props) {
   }, [coords, userId]);
 
   const handleClick = () => {
-    setLocation("Ładowanie...");
+    setTempLocation("Ładowanie...");
     if (!navigator.geolocation) {
-      setLocation("Lokalizacja niedostępna");
+      setTempLocation("Lokalizacja niedostępna");
       return;
     }
 
     navigator.geolocation.getCurrentPosition((pos) => {
       const { latitude, longitude } = pos.coords;
       setCoords({ lat: latitude, lng: longitude });
-    }, () => setLocation("Nie udało się pobrać lokalizacji"));
+      setLocation({ lat: latitude, lng: longitude, label });
+    }, () => setTempLocation("Nie udało się pobrać lokalizacji"));
   };
 
   return (
@@ -97,7 +100,7 @@ export default function LocationItem(props: Props) {
       </div>
 
       <div>
-        <small className="text-gray-400">{location}</small>
+        <small className="text-gray-400">{tempLocation}</small>
         <div>{label}</div>
       </div>
     </div>

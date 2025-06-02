@@ -9,19 +9,20 @@ export default function Footer() {
             <div className="flex flex-col gap-2 pb-10">
               <a
                 href="./"
-                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit"
+                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit text-xl"
               >
                 Jeszcze ciepłe
               </a>
+
               <a
                 href="./"
-                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit"
+                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit text-xl self-end"
               >
                 Nieźle zmrożone
               </a>
             </div>
 
-            <small>kanapki, sandwiche, gofry, napoje, desery, kawa, herbata</small>
+            kanapki, sandwiche, gofry, napoje, desery, kawa, herbata
           </div>
 
           <div id="contact" className="flex flex-col gap-4 flex-1">

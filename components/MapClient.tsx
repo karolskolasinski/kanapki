@@ -19,24 +19,29 @@ function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
   return null;
 }
 
-export default function MapClient(
-  { lat, lng, label }: { lat: number; lng: number; label?: string },
-) {
+type MapClientProps = {
+  lat: number;
+  lng: number;
+  label?: string;
+};
+
+export default function MapClient(props: MapClientProps) {
+  const { lat, lng, label } = props;
+
   return (
-    <MapContainer
-      center={[lat, lng]}
-      zoom={13}
-      scrollWheelZoom={false}
-      style={{ height: "300px", width: "100%" }}
-    >
-      <TileLayer
-        attribution='&copy; <a href="https://osm.org/copyright">OpenStreetMap</a>'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <Marker position={[lat, lng]} icon={customIcon}>
-        <Popup>{label || "Lokalizacja"}</Popup>
-      </Marker>
-      <MapUpdater lat={lat} lng={lng} />
-    </MapContainer>
+    <div className="grayscale-100 duration-300 hover:grayscale-0 h-[300px] w-full">
+      <MapContainer
+        center={[lat, lng]}
+        zoom={13}
+        scrollWheelZoom={false}
+        className="w-full h-full"
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={[lat, lng]} icon={customIcon}>
+          <Popup>{label || "Lokalizacja"}</Popup>
+        </Marker>
+        <MapUpdater lat={lat} lng={lng} />
+      </MapContainer>
+    </div>
   );
 }
