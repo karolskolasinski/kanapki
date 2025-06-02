@@ -36,6 +36,7 @@ export default function MenuItem(props: MenuItemProps) {
   let liClass = "text-xl xs:text-2xl";
   liClass = userId ? "" : liClass;
   const fontClass = userId ? "" : "font-bold";
+  const selectedIngredients = ingredients.filter((i) => dish.ingredients?.includes(i.id!));
 
   return (
     <>
@@ -80,10 +81,8 @@ export default function MenuItem(props: MenuItemProps) {
 
       {!userId && (
         <div className="text-[.7rem] xs:text-xs pb-5">
-          <span className="font-semibold">skład:</span> {ingredients
-            .filter((i) => dish.ingredients?.includes(i.id!))
-            .map((i) => i.name)
-            .join(", ")}
+          {selectedIngredients.length > 0 && <span className="font-semibold">skład:</span>}{" "}
+          {selectedIngredients.map((i) => i.name).join(", ")}
         </div>
       )}
     </>
