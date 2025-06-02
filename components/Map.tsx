@@ -1,23 +1,38 @@
 "use client";
 
+import dynamic from "next/dynamic";
+import { useEffect, useState } from "react";
 import { useLocation } from "@/lib/location-context";
+import Image from "next/image";
+
+const MapClient = dynamic(() => import("./MapClient"), { ssr: false });
 
 function Map() {
   const { location } = useLocation();
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (location?.lat && location?.lng) {
+      setLat(location.lat);
+      setLng(location.lng);
+    }
+  }, [location]);
 
   return (
-    <div className="flex gap-2 items-start">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 -960 960 960"
-        className="min-w-6 w-6"
-      >
-        <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
-      </svg>
-
-      <div className="flex flex-col">
-        {location?.label}
+    <div className="flex flex-col gap-2 items-start">
+      <div className="flex gap-2 items-center">
+        <Image
+          src="/map-marker.svg"
+          alt="lokalizacja"
+          width={30}
+          height={30}
+          className="inline"
+        />
+        <div className="flex flex-col">{location?.label}</div>
       </div>
+
+      {lat && lng && <MapClient lat={lat} lng={lng} label={location?.label} />}
     </div>
   );
 }

@@ -6,6 +6,7 @@ import localFont from "next/font/local";
 import { Open_Sans, Work_Sans } from "next/font/google";
 import { LocationProvider } from "@/lib/location-context";
 import { IngredientsProvider } from "@/lib/ingredients-context";
+import "leaflet/dist/leaflet.css";
 
 const calSans = localFont({
   src: "../public/fonts/CalSans-Regular.woff2",
