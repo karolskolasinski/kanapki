@@ -2,6 +2,9 @@ import { collection, getCountFromServer } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import DashboardItem from "@/components/DashboardItem";
 import LogoutButton from "@/components/LogoutButton";
+import LocationItem from "@/components/LocationItem";
+import { authOptions } from "@/auth/auth-config";
+import { getServerSession } from "next-auth";
 
 export default async function Dashboard() {
   const usersSnap = await getCountFromServer(collection(db, "users"));
@@ -11,6 +14,8 @@ export default async function Dashboard() {
   const usersCount = usersSnap.data().count;
   const ingredientsCount = ingredientsSnap.data().count;
   const menuCount = dishesSnap.data().count;
+
+  const session = await getServerSession(authOptions);
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -22,9 +27,10 @@ export default async function Dashboard() {
         <DashboardItem item="users" count={usersCount} />
         <DashboardItem item="ingredients" count={ingredientsCount} />
         <DashboardItem item="dishes" count={menuCount} />
-        <DashboardItem item="location" count={0} />
+        <LocationItem userId={session?.user.id} />
         <DashboardItem item="password" count={0} />
         <LogoutButton />
+        <DashboardItem item="password" count={0} />
       </div>
     </section>
   );

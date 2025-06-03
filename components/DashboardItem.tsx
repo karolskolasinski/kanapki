@@ -1,8 +1,5 @@
 import Link from "next/link";
 import Image from "next/image";
-import LocationItem from "@/components/LocationItem";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/auth/auth-config";
 
 type DashboardItemProps = {
   item: keyof typeof items;
@@ -37,13 +34,6 @@ const items = {
     bgHover: "hover:border-sky-200",
     getCounterLabel: (c: number) => pluralize(c, "pozycja", "pozycje", "pozycji"),
   },
-  location: {
-    label: "Lokalizacja",
-    icon: "location.svg",
-    bg: "bg-[#f8edeb]",
-    bgHover: "hover:border-orange-200",
-    getCounterLabel: () => "",
-  },
   password: {
     label: "Hasło",
     icon: "password.svg",
@@ -58,21 +48,6 @@ export const itemClassName =
 
 export default async function DashboardItem({ item, count }: DashboardItemProps) {
   const config = items[item];
-
-  if (item === "location") {
-    const session = await getServerSession(authOptions);
-
-    return (
-      <LocationItem
-        icon={config.icon}
-        label={config.label}
-        bg={config.bg}
-        bgHover={config.bgHover}
-        className={itemClassName}
-        userId={session?.user.id}
-      />
-    );
-  }
 
   return (
     <Link href={`/dashboard/${item}`} className={itemClassName + config.bgHover}>

@@ -3,18 +3,14 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useLocation } from "@/lib/location-context";
+import { itemClassName } from "@/components/DashboardItem";
 
 type Props = {
-  icon: string;
-  label: string;
-  bg: string;
-  bgHover: string;
-  className: string;
   userId?: string;
 };
 
 export default function LocationItem(props: Props) {
-  const { icon, label, bg, bgHover, className, userId } = props;
+  const { userId } = props;
   const [location, setLocation] = useState<string>("Ładowanie...");
   const [coords, setCoords] = useState<{ lat: number; lng: number } | null>(null);
   const { setLocation: setLocationHook } = useLocation();
@@ -94,14 +90,14 @@ export default function LocationItem(props: Props) {
   };
 
   return (
-    <div onClick={handleClick} className={className + bgHover}>
-      <div className={`p-5 rounded-full ${bg}`}>
-        <Image src={icon} alt={label} width={24} height={24} />
+    <div onClick={handleClick} className={`${itemClassName} hover:border-orange-200`}>
+      <div className="p-5 rounded-full bg-[#f8edeb]">
+        <Image src="location.svg" alt="Lokalizacja" width={24} height={24} />
       </div>
 
       <div>
         <small className="text-gray-400">{location}</small>
-        <div>{label}</div>
+        <div>Lokalizacja</div>
       </div>
     </div>
   );
