@@ -17,6 +17,7 @@ function Map() {
       setLat(location.lat);
       setLng(location.lng);
     }
+
   }, [location]);
 
   return (
@@ -29,11 +30,25 @@ function Map() {
           height={30}
           className="inline"
         />
-        <div className="flex flex-col">{location?.label}</div>
+        <div className="flex flex-col">
+          {!location?.isOpen ? "Zamknięte, zapraszamy następnym razem" : location?.label}
+        </div>
       </div>
 
-      <div className="grayscale-100 duration-300 hover:grayscale-0 h-[300px] w-full">
-        {lat && lng && <MapClient lat={lat} lng={lng} label={location?.label} />}
+      <div className="grayscale-0 sm:grayscale-100 sm:hover:grayscale-0 duration-300 h-[300px] w-full">
+      {!location?.isOpen && (
+          <div className="w-full h-full relative flex items-center justify-center">
+            <div className="absolute inset-0 bg-gray-200 animate-pulse" />
+            <Image
+              src="/map-marker-filled.svg"
+              alt="lokalizacja"
+              width={48}
+              height={48}
+              className="relative z-10"
+            />
+          </div>
+        )}
+        {lat && lng && location?.isOpen && <MapClient lat={lat} lng={lng} label={location?.label} />}
       </div>
     </div>
   );

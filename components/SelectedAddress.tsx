@@ -3,6 +3,7 @@
 import { User } from "@/app/dashboard/users/page";
 import Image from "next/image";
 import { useLocation } from "@/lib/location-context";
+import { useEffect, useState } from "react";
 
 type SelectedAddressProps = {
   users: User[];
@@ -11,6 +12,16 @@ type SelectedAddressProps = {
 export default function SelectedAddress(props: SelectedAddressProps) {
   const { users } = props;
   const { location, setLocation } = useLocation();
+  const [isOpen, setIsOpen] = useState<boolean>();
+
+  useEffect(() => {
+    const userId = JSON.parse(localStorage.getItem("selectedUserId") ?? "{}").userId;
+
+    const user = users.find((user) => user.id === userId);
+    if (user) {
+      setIsOpen(user.isOpen);
+    }
+  }, [users, setLocation]);
 
   const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const userId = e.target.value;
@@ -19,6 +30,7 @@ export default function SelectedAddress(props: SelectedAddressProps) {
     if (user) {
       localStorage.setItem("selectedUserId", JSON.stringify({ userId: user.id }));
       setLocation(user.id);
+      setIsOpen(user.isOpen);
     }
   };
 
@@ -32,7 +44,9 @@ export default function SelectedAddress(props: SelectedAddressProps) {
           height={30}
           className="inline"
         />
-        {location?.label ?? "brak wybranej lokalizacji"}
+        {isOpen !== undefined && !isOpen
+          ? "Zamknięte, zapraszamy następnym razem"
+          : location?.label || "brak wybranej lokalizacji"}
       </div>
 
       {users.length > 0 && (

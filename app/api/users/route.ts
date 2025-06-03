@@ -56,6 +56,7 @@ export async function POST(req: NextRequest) {
         ...data,
         password: await bcrypt.hash(body.password, 12),
         updatedAt: serverTimestamp(),
+        isOpen: false
       });
     }
 

@@ -38,12 +38,6 @@ function Menu() {
               </div>
 
               <ul className="leaders">
-                {!dishes.length && (
-                  <div className="uppercase font-semibold flex items-center justify-center text-sm">
-                    Ładowanie...
-                  </div>
-                )}
-
                 {dishes.filter((d) => d.category === category).map((dish) => (
                   <MenuItem key={dish.id} dish={dish} />
                 ))}

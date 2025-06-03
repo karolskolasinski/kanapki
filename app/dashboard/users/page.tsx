@@ -14,6 +14,7 @@ export type User = {
   password?: string;
   role?: string;
   updatedAt?: Date | null;
+  isOpen?: boolean;
 };
 
 async function Users() {

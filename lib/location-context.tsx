@@ -7,6 +7,7 @@ interface Location {
   label?: string;
   lat?: number;
   lng?: number;
+  isOpen?: boolean;
 }
 
 interface LocationContextType {
@@ -29,7 +30,13 @@ export const LocationProvider = ({ children }: { children: ReactNode }) => {
         return;
       }
 
-      setLocationState({ userId, label: result.location, lat: result.lat, lng: result.lng });
+      setLocationState({
+        userId,
+        label: result.location,
+        lat: result.lat,
+        lng: result.lng,
+        isOpen: result.isOpen,
+      });
     } catch (err) {
       console.error(err);
       setLocationState(null);

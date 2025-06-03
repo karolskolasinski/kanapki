@@ -12,6 +12,6 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
     return NextResponse.json({ error: "Nie znaleziono użytkownika" }, { status: 404 });
   }
 
-  const { location, lat, lng } = user.data();
-  return NextResponse.json({ location, lat, lng });
+  const { location, lat, lng, isOpen } = user.data();
+  return NextResponse.json({ location, lat, lng, isOpen: !!isOpen });
 }
