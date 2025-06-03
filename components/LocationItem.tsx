@@ -97,7 +97,7 @@ export default function LocationItem(props: Props) {
 
       <div>
         <small className="text-gray-400">{location}</small>
-        <div>Lokalizacja</div>
+        <div>Zlokalizuj</div>
       </div>
     </div>
   );

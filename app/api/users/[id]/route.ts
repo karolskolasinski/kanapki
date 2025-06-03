@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/auth/auth-config";
 import { NextRequest, NextResponse } from "next/server";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { deleteDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 
 export async function POST(req: NextRequest) {
@@ -45,4 +45,25 @@ export async function GET(_req: NextRequest, { params }: { params: Promise<{ id:
   }
 
   return NextResponse.json(user.data());
+}
+
+export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+  const { id } = params;
+  const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return NextResponse.json({ error: "Brak autoryzacji" }, { status: 401 });
+  }
+
+  const body = await req.json();
+  const isOpen = body.isOpen === true;
+
+  const userRef = doc(db, "users", id);
+  try {
+    await updateDoc(userRef, { isOpen });
+    return NextResponse.redirect(new URL("/dashboard/users", req.url));
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: "Błąd aktualizacji" }, { status: 500 });
+  }
 }

@@ -5,6 +5,7 @@ import LogoutButton from "@/components/LogoutButton";
 import LocationItem from "@/components/LocationItem";
 import { authOptions } from "@/auth/auth-config";
 import { getServerSession } from "next-auth";
+import ActivateItem from "@/components/ActivateItem";
 
 export default async function Dashboard() {
   const usersSnap = await getCountFromServer(collection(db, "users"));
@@ -16,6 +17,7 @@ export default async function Dashboard() {
   const menuCount = dishesSnap.data().count;
 
   const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
 
   return (
     <section className="flex-1 w-full max-w-7xl mx-auto py-4 px-2">
@@ -27,10 +29,10 @@ export default async function Dashboard() {
         <DashboardItem item="users" count={usersCount} />
         <DashboardItem item="ingredients" count={ingredientsCount} />
         <DashboardItem item="dishes" count={menuCount} />
-        <LocationItem userId={session?.user.id} />
+        <LocationItem userId={userId} />
+        <ActivateItem userId={userId} />
         <DashboardItem item="password" count={0} />
         <LogoutButton />
-        <DashboardItem item="password" count={0} />
       </div>
     </section>
   );
