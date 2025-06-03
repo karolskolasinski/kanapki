@@ -46,7 +46,7 @@ export default function SelectedAddress(props: SelectedAddressProps) {
         />
         {isOpen !== undefined && !isOpen
           ? "Zamknięte, zapraszamy następnym razem"
-          : location?.label || "brak wybranej lokalizacji"}
+          : location?.label || "Brak wybranej lokalizacji"}
       </div>
 
       {users.length > 0 && (

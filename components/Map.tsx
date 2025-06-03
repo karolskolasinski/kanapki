@@ -31,7 +31,9 @@ function Map() {
           className="inline"
         />
         <div className="flex flex-col">
-          {!location?.isOpen ? "Zamknięte, zapraszamy następnym razem" : location?.label}
+          {location?.isOpen !== undefined && !location?.isOpen
+            ? "Zamknięte, zapraszamy następnym razem"
+            : location?.label || "Brak wybranej lokalizacji"}
         </div>
       </div>
 
