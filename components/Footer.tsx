@@ -1,4 +1,5 @@
 import Map from "@/components/Map";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -36,9 +37,14 @@ export default function Footer() {
               >
                 <path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />
               </svg>
-              <a href="mailto:biuro@jeszczecieple.pl?subject=Kontakt z jeszczecieple.pl">
-                biuro@jeszczecieple.pl
+              <a href="mailto:biuro@kanapki.gda.pl?subject=Kontakt z kanapki.gda.pl">
+                biuro@kanapki.gda.pl
               </a>
+            </div>
+
+            <div>
+              <Image src="qr.svg" alt="qr" width="0" height="0" className="w-22" />
+              <small>kanapki.gda.pl</small>
             </div>
           </div>
 
@@ -49,7 +55,7 @@ export default function Footer() {
         </div>
 
         <div className="py-4 text-center text-xs border-t border-t-gray-400 text-gray-600">
-          2025 - jeszczecieple.pl
+          2025 - kanapki.gda.pl
         </div>
       </div>
     </footer>

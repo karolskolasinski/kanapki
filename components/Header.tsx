@@ -12,35 +12,17 @@ export default function Header() {
               width={0}
               height={0}
               priority
-              className="h-8 xs:h-10 w-auto"
+              className="h-12 w-auto"
             />
 
-            <div className="flex flex-col uppercase leading-none text-xl xs:text-2xl tracking-wider font-cal-sans">
-              <div>Jeszcze</div>
-              <div className="flex items-center">
-                ciepłe<span className="text-[1rem]">🔥</span>
+            <div className="flex flex-col">
+              <div className="text-[1.75rem] leading-none uppercase font-cal-sans tracking-wider">
+                kanapki
+              </div>
+              <div className="text-sm tracking-widest">
+                kanapki.gda.pl
               </div>
             </div>
-          </a>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <a href="./" className="flex gap-2 items-center font-bold py-1">
-            <div className="flex flex-col uppercase leading-none text-xl xs:text-2xl tracking-wider font-cal-sans">
-              <div className="tracking-[1.5px] text-right">
-                <span className="text-[1rem]">🥶</span>Nieźle
-              </div>
-              <div className="flex items-center tracking-[.5px]">zmrożone</div>
-            </div>
-
-            <Image
-              src="/nz-logo.svg"
-              alt="logo"
-              width={0}
-              height={0}
-              className="h-8 xs:h-10 w-auto"
-              priority
-            />
           </a>
         </div>
       </div>

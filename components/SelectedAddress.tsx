@@ -1,7 +1,6 @@
 "use client";
 
 import { User } from "@/app/dashboard/users/page";
-import Image from "next/image";
 import { useLocation } from "@/lib/location-context";
 import { useEffect, useState } from "react";
 
@@ -37,16 +36,11 @@ export default function SelectedAddress(props: SelectedAddressProps) {
   return (
     <div className="flex flex-col gap-3 px-2 py-5 md:flex-row md:gap-5 md:justify-center">
       <div className="w-full md:w-auto uppercase bg-black px-3 py-2 text-white font-work-sans text-lg lg:text-2xl font-black flex gap-1 justify-center items-center">
-        <Image
-          src="/pin-drop.svg"
-          alt="lokalizacja"
-          width={30}
-          height={30}
-          className="inline"
-        />
         {isOpen !== undefined && !isOpen
           ? "Zamknięte, zapraszamy następnym razem"
-          : location?.label || "Brak wybranej lokalizacji"}
+          : location?.label
+          ? "Menu na dziś"
+          : "Brak wybranej lokalizacji"}
       </div>
 
       {users.length > 0 && (
