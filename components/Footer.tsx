@@ -1,5 +1,9 @@
-import Map from "@/components/Map";
 import Image from "next/image";
+import Link from "next/link";
+import InstaIcon from "../public/instagram.svg";
+import FacebookIcon from "../public/facebook.svg";
+import YoutubeIcon from "../public/youtube.svg";
+import TikTokIcon from "../public/tiktok.svg";
 
 export default function Footer() {
   return (
@@ -8,18 +12,25 @@ export default function Footer() {
         <div className="flex flex-col lg:flex-row gap-16 pb-8">
           <div className="flex-1">
             <div className="flex flex-col gap-2 pb-10">
-              <a
-                href="./"
-                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit text-xl"
-              >
-                Jeszcze ciepłe
-              </a>
+              <a href="./" className="flex gap-2 items-center font-bold py-1">
+                <Image
+                  src="/logo.svg"
+                  alt="logo"
+                  width={0}
+                  height={0}
+                  priority
+                  className="h-8 w-auto"
+                />
 
-              <a
-                href="./"
-                className="flex gap-2 items-center font-bold uppercase font-cal-sans leading-none tracking-wider w-fit text-xl self-end"
-              >
-                Nieźle zmrożone
+                <div className="flex flex-col">
+                  <div className="text-[1.5rem] leading-none uppercase font-cal-sans tracking-wider">
+                    kanapki
+                  </div>
+
+                  <div className="text-xs tracking-widest">
+                    kanapki.gda.pl
+                  </div>
+                </div>
               </a>
             </div>
 
@@ -48,9 +59,58 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="flex-2 flex flex-col gap-4">
-            <h2 className="text-2xl font-bold">Mapa</h2>
-            <Map />
+          <div className="flex-1 flex flex-col gap-4">
+            <h2 className="text-2xl font-bold">Obserwuj</h2>
+
+            <div className="flex gap-10">
+              <Link href="#" className="w-fit">
+                <InstaIcon className="w-6 h-6 fill-[#E1306C] hover:fill-[#FF5A91] transition-colors cursor-pointer" />
+              </Link>
+
+              <Link href="#" className="w-fit">
+                <FacebookIcon className="w-6 h-6 fill-[#1877F2] hover:fill-[#3B99FC] transition-colors cursor-pointer" />
+              </Link>
+
+              <Link href="#" className="w-fit">
+                <TikTokIcon className="w-6 h-6 fill-black hover:fill-[#555555] transition-colors cursor-pointer" />
+              </Link>
+
+              <Link href="#" className="w-fit">
+                <YoutubeIcon className="w-6 h-6 fill-[#FF0000] hover:fill-[#FF4D4D] transition-colors cursor-pointer" />
+              </Link>
+            </div>
+
+            {/*<div className="flex gap-10">*/}
+            {/*  <Link href="#" className="w-fit">*/}
+            {/*    <Image*/}
+            {/*      src="fb.svg"*/}
+            {/*      alt="facebook"*/}
+            {/*      width="0"*/}
+            {/*      height="0"*/}
+            {/*      className="w-6 h-6 cursor-pointer fill-[#1877F2] hover:fill-[#3B99FC]"*/}
+            {/*    />*/}
+            {/*  </Link>*/}
+
+            {/*  <Link href="#" className="w-fit">*/}
+            {/*    <Image*/}
+            {/*      src="tiktok.svg"*/}
+            {/*      alt="tik tok"*/}
+            {/*      width="0"*/}
+            {/*      height="0"*/}
+            {/*      className="w-6 h-6 cursor-pointer fill-black hover:fill-[#555555]"*/}
+            {/*    />*/}
+            {/*  </Link>*/}
+
+            {/*  <Link href="#" className="w-fit">*/}
+            {/*    <Image*/}
+            {/*      src="yt.svg"*/}
+            {/*      alt="youtube"*/}
+            {/*      width="0"*/}
+            {/*      height="0"*/}
+            {/*      className="w-6 h-6 cursor-pointer fill-[#FF0000] hover:fill-[#FF4D4D]"*/}
+            {/*    />*/}
+            {/*  </Link>*/}
+            {/*</div>*/}
           </div>
         </div>
 

@@ -19,6 +19,7 @@ export default function Header() {
               <div className="text-[1.75rem] leading-none uppercase font-cal-sans tracking-wider">
                 kanapki
               </div>
+
               <div className="text-sm tracking-widest">
                 kanapki.gda.pl
               </div>
