@@ -79,38 +79,6 @@ export default function Footer() {
                 <YoutubeIcon className="w-6 h-6 fill-[#FF0000] hover:fill-[#FF4D4D] transition-colors cursor-pointer" />
               </Link>
             </div>
-
-            {/*<div className="flex gap-10">*/}
-            {/*  <Link href="#" className="w-fit">*/}
-            {/*    <Image*/}
-            {/*      src="fb.svg"*/}
-            {/*      alt="facebook"*/}
-            {/*      width="0"*/}
-            {/*      height="0"*/}
-            {/*      className="w-6 h-6 cursor-pointer fill-[#1877F2] hover:fill-[#3B99FC]"*/}
-            {/*    />*/}
-            {/*  </Link>*/}
-
-            {/*  <Link href="#" className="w-fit">*/}
-            {/*    <Image*/}
-            {/*      src="tiktok.svg"*/}
-            {/*      alt="tik tok"*/}
-            {/*      width="0"*/}
-            {/*      height="0"*/}
-            {/*      className="w-6 h-6 cursor-pointer fill-black hover:fill-[#555555]"*/}
-            {/*    />*/}
-            {/*  </Link>*/}
-
-            {/*  <Link href="#" className="w-fit">*/}
-            {/*    <Image*/}
-            {/*      src="yt.svg"*/}
-            {/*      alt="youtube"*/}
-            {/*      width="0"*/}
-            {/*      height="0"*/}
-            {/*      className="w-6 h-6 cursor-pointer fill-[#FF0000] hover:fill-[#FF4D4D]"*/}
-            {/*    />*/}
-            {/*  </Link>*/}
-            {/*</div>*/}
           </div>
         </div>
 

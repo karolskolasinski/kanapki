@@ -43,7 +43,7 @@ export default function SelectedAddress(props: SelectedAddressProps) {
           : "Brak wybranej lokalizacji"}
       </div>
 
-      {users.length > 0 && (
+      {users.length > 1 && (
         <select
           onChange={handleSelect}
           value={location?.userId ?? "loading"}
