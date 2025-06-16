@@ -34,7 +34,7 @@ export default function Footer() {
               </a>
             </div>
 
-            kanapki, sandwiche, gofry, napoje, desery, kawa, herbata
+            kanapki, sandwiche, gofry, napoje, desery, kawa, herbata{" "}
           </div>
 
           <div id="contact" className="flex flex-col gap-4 flex-1">
@@ -82,8 +82,10 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="py-4 text-center text-xs border-t border-t-gray-400 text-gray-600">
+        <div className="py-4 text-center text-xs border-t border-t-gray-400 text-gray-600 relative">
           2025 - kanapki.gda.pl
+
+          <Link href="/dashboard" className="text-transparent absolute right-0">.</Link>
         </div>
       </div>
     </footer>

@@ -1,4 +1,4 @@
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import DishForm from "@/components/DishForm";
 import { Ingredient } from "@/components/IngredientForm";
@@ -24,7 +24,8 @@ async function Page({ params }: { params: Promise<{ id: string }> }) {
   }
 
   const ingredientsRef = collection(db, "ingredients");
-  const ingredientsSnap = await getDocs(ingredientsRef);
+  const ingredientsQ = query(ingredientsRef, orderBy("createdAt", "asc"));
+  const ingredientsSnap = await getDocs(ingredientsQ);
   ingredients = ingredientsSnap.docs.map((doc) => {
     const data = doc.data();
     return ({

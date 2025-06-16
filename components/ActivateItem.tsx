@@ -24,8 +24,6 @@ export default function ActivateItem(props: Props) {
           return;
         }
 
-        console.log(result);
-
         setIsOpen(result.isOpen);
       } catch (err) {
         console.error(err);

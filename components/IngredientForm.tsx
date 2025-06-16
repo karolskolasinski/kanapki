@@ -66,7 +66,7 @@ export default function IngredientForm(props: IngredientFormProps) {
         <input
           type="text"
           name="name"
-          maxLength={30}
+          maxLength={50}
           value={formData?.name ?? ""}
           onChange={handleChange}
           className="h-10 p-2 border border-gray-300 rounded-xl"
